@@ -1,18 +1,78 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 /**
  * Created by andrew_briasco on 3/15/17.
  */
+
 public class Main extends JPanel {
     public static final int FRAMEWIDTH = 500, FRAMEHEIGHT = 700;
+    private Timer timer;
+    private boolean[] keys;
 
     Player player = new Player();
 
 
     public Main() {
+        keys = new boolean[512];
 
+
+
+
+
+
+        timer = new Timer(40, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+
+
+
+                if(keys[KeyEvent.VK_W]){
+                    player.jump();
+                    player.setDir(Sprite.NORTH);
+                    player.update();
+                    keys[KeyEvent.VK_W] = false; //probably.
+                }
+                if(keys[KeyEvent.VK_S]){
+                    player.jump();
+                    player.setDir(Sprite.SOUTH);
+                    player.update();
+                    keys[KeyEvent.VK_S] = false; //probably.
+                }
+                if(keys[KeyEvent.VK_D]){
+                    player.jump();
+                    player.setDir(Sprite.EAST);
+                    player.update();
+                    keys[KeyEvent.VK_D] = false; //probably.
+                }
+                if(keys[KeyEvent.VK_A]){
+                    player.jump();
+                    player.setDir(Sprite.WEST);
+                    player.update();
+                    keys[KeyEvent.VK_A] = false; //probably.
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+        });
+        //outside timer but still in constructor
     }
+
 
 
 

@@ -57,6 +57,8 @@ public class Main extends JPanel {
                     player.setSide(0);
 
 
+                if(player.getSpeed()> -5)
+                    player.setSpeed(player.getSpeed()-1);
 
 
 
@@ -66,9 +68,7 @@ public class Main extends JPanel {
 
 
 
-
-
-
+                repaint();
             }
         });
         //outside timer but still in constructor

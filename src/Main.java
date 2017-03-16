@@ -53,9 +53,12 @@ public class Main extends JPanel {
                     player.update();
                 }
 
-
-                if(player.getSpeed()> -4)
-                    player.setSpeed(player.getSpeed()-1);
+                if(!player.isOnPlatform()) {
+                    if (player.getSpeed() > -4)
+                        player.setSpeed(player.getSpeed() - 1);
+                }
+                else
+                    player.setSpeed(0);
 
 
 

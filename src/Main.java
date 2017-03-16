@@ -7,11 +7,12 @@ import java.awt.*;
 public class Main extends JPanel {
     public static final int FRAMEWIDTH = 500, FRAMEHEIGHT = 700;
 
+    Player player = new Player();
+
+
     public Main() {
 
-
     }
-
 
 
 
@@ -20,6 +21,8 @@ public class Main extends JPanel {
         Graphics2D g2 = (Graphics2D)g;
 
         g2.drawRect(FRAMEWIDTH-4, FRAMEHEIGHT-4, 2, 1);
+
+        player.draw(g2);
     }
 
 

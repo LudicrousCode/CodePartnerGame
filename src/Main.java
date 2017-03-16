@@ -57,7 +57,7 @@ public class Main extends JPanel {
                     player.setSide(0);
 
 
-                if(player.getSpeed()> -5)
+                if(player.getSpeed()> -4)
                     player.setSpeed(player.getSpeed()-1);
 
 

@@ -27,4 +27,8 @@ public class Player extends Sprite{
     public void setOnPlatform(boolean onPlatform) {
         this.onPlatform = onPlatform;
     }
+
+    public boolean isOnPlatform() {
+        return onPlatform;
+    }
 }

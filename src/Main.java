@@ -39,8 +39,6 @@ public class Main extends JPanel {
         window.setVisible(true);
         window.setResizable(false);
 
-        System.out.println("Yo");
-
     }
 }
 

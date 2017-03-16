@@ -3,6 +3,9 @@
  */
 public class Player extends Sprite{
 
+    private boolean isJumping = false;
+    private boolean onPlatform = false;
+
     public Player(){
 
         super(Main.FRAMEWIDTH / 2 - 25, Main.FRAMEHEIGHT * 8 / 9, NORTH);
@@ -11,6 +14,15 @@ public class Player extends Sprite{
 
     }
 
+    public void update(){
+        if(isJumping){
+            isJumping = false;
+        }
+    }
+
+    public boolean jump(){
+        return isJumping = true;
+    }
 
 
 }

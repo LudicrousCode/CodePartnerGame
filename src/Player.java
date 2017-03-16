@@ -6,13 +6,6 @@ public class Player extends Sprite{
     private boolean isJumping = false;
     private boolean onPlatform = false;
 
-    public int getSide() {
-        return side;
-    }
-
-    public void setSide(int side) {
-        this.side = side;
-    }
 
     private int side;
 
@@ -31,6 +24,7 @@ public class Player extends Sprite{
 
     public void jump(){
         isJumping = true;
+
     }
 
     public void setOnPlatform(boolean onPlatform) {
@@ -40,6 +34,15 @@ public class Player extends Sprite{
     public boolean isOnPlatform() {
         return onPlatform;
     }
+
+    public int getSide() {
+        return side;
+    }
+
+    public void setSide(int side) {
+        this.side = side;
+    }
+
 
 
 }

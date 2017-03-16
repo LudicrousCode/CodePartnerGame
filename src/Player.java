@@ -16,11 +16,14 @@ public class Player extends Sprite{
 
     }
 
+    @Override
     public void update(){
-        super.update();
         if(isJumping){
+            setSpeed(10);
             isJumping = false;
         }
+
+
     }
 
     public void jump(){

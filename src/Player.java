@@ -20,9 +20,11 @@ public class Player extends Sprite{
         }
     }
 
-    public boolean jump(){
-        return isJumping = true;
+    public void jump(){
+        isJumping = true;
     }
 
-
+    public void setOnPlatform(boolean onPlatform) {
+        this.onPlatform = onPlatform;
+    }
 }

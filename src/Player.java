@@ -7,7 +7,6 @@ public class Player extends Sprite{
     private boolean onPlatform = false;
 
 
-    private int side;
 
     public Player(){
 
@@ -38,15 +37,6 @@ public class Player extends Sprite{
     public boolean isOnPlatform() {
         return onPlatform;
     }
-
-    public int getSide() {
-        return side;
-    }
-
-    public void setSide(int side) {
-        this.side = side;
-    }
-
 
 
 }

@@ -45,16 +45,13 @@ public class Main extends JPanel {
                     }
                 }
                 if(keys[KeyEvent.VK_D]){
-                    player.setSide(1);
+                    player.setLoc(new Point(player.getLoc().x+2, player.getLoc().y));
                     player.update();
                 }
                 else if(keys[KeyEvent.VK_A]){
-                    player.setSide(-1);
-                    player.setDir(Sprite.WEST);
+                    player.setLoc(new Point(player.getLoc().x-2, player.getLoc().y));
                     player.update();
                 }
-                else
-                    player.setSide(0);
 
 
                 if(player.getSpeed()> -4)

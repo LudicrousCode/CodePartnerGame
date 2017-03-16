@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 /**
  * Created by andrew_briasco on 3/15/17.
@@ -12,6 +13,8 @@ public class Main extends JPanel {
     public static final int FRAMEWIDTH = 500, FRAMEHEIGHT = 700;
     private Timer timer;
     private boolean[] keys;
+
+    private ArrayList<Platform> platform;
 
     Player player = new Player();
 
@@ -28,32 +31,30 @@ public class Main extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
 
-
+                for(Platform a: platform){
+                    if(player.intersects(a))
+                        player.setOnPlatform(true);
+                }
 
                 if(keys[KeyEvent.VK_W]){
-                    player.jump();
-                    player.setDir(Sprite.NORTH);
-                    player.update();
-                    keys[KeyEvent.VK_W] = false; //probably.
-                }
-                if(keys[KeyEvent.VK_S]){
-                    player.jump();
-                    player.setDir(Sprite.SOUTH);
-                    player.update();
-                    keys[KeyEvent.VK_S] = false; //probably.
+                    if(player.isOnPlatform()) {
+                        player.jump();
+                        player.setDir(Sprite.NORTH);
+                        player.update();
+                        keys[KeyEvent.VK_W] = false; //probably.
+                    }
                 }
                 if(keys[KeyEvent.VK_D]){
-                    player.jump();
-                    player.setDir(Sprite.EAST);
+                    player.setSide(1);
                     player.update();
-                    keys[KeyEvent.VK_D] = false; //probably.
                 }
-                if(keys[KeyEvent.VK_A]){
-                    player.jump();
+                else if(keys[KeyEvent.VK_A]){
+                    player.setSide(-1);
                     player.setDir(Sprite.WEST);
                     player.update();
-                    keys[KeyEvent.VK_A] = false; //probably.
                 }
+                else
+                    player.setSide(0);
 
 
 

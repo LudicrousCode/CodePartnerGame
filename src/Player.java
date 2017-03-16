@@ -20,7 +20,6 @@ public class Player extends Sprite{
 
         super(Main.FRAMEWIDTH / 2 - 25, Main.FRAMEHEIGHT * 8 / 9, NORTH);
         setPic("player.png", NORTH);
-        setSpeed(25);
 
     }
 

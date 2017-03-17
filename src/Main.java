@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class Main extends JPanel {
     public static final int FRAMEWIDTH = 500, FRAMEHEIGHT = 700;
     private Timer timer;
+    private int gravity;
     private boolean[] keys;
 
     private ArrayList<Platform> platform;
@@ -21,9 +22,10 @@ public class Main extends JPanel {
 
 
     public Main() {
+        gravity = 2;
         keys = new boolean[512];
         platform = new ArrayList<Platform>();
-        platform.add(new Platform(0, 690, 500, 10));
+        platform.add(new Platform(250, 660));
 
 
 
@@ -57,21 +59,23 @@ public class Main extends JPanel {
                     player.update();
                 }
 
-                if(!player.isOnPlatform()) {
-                    if (player.getSpeed() > -4)
+                if(!player.isOnPlatform()&& gravity <1) {
+                    if (player.getSpeed() > -4) {
+                        gravity = 2;
                         player.setSpeed(player.getSpeed() - 1);
+                    }
                 }
-                else
+                else {
+                    gravity --;
                     player.setSpeed(0);
+                }
 
 
 
                 for(Platform s: platform)
                     s.update();
 
-
-
-
+                player.update();
 
                 repaint();
             }
@@ -104,7 +108,9 @@ public class Main extends JPanel {
         Graphics2D g2 = (Graphics2D)g;
 
 //        g2.drawRect(FRAMEWIDTH-4, FRAMEHEIGHT-4, 2, 1);
-
+        for (Platform a : platform) {
+            a.draw(g2);
+        }
         player.draw(g2);
     }
 

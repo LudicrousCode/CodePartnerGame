@@ -6,9 +6,11 @@ import java.awt.*;
 public class Platform extends Sprite{
     //need to have a picture for the platforms, not a rectangle that is drawn
 
-    public Platform(int x, int y, int w, int h){
+    public Platform(int x, int y){
 
         super(x, y, NORTH);
+        this.setPic("CloudPlatform.png", NORTH);
+        this.setSpeed(0);
 //        g2.fillRect(x, y, w, h);
 
     }

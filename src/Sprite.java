@@ -25,7 +25,7 @@ public class Sprite {
         loc = new Point(x, y);
         dir = direction;
         setPic("blank.png", NORTH);
-        speed = 5;
+        speed = 0;
 
         id = nextID;
         nextID++;

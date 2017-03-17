@@ -15,6 +15,7 @@ public class Main extends JPanel {
     private Timer timer;
     private int gravity;
     private boolean[] keys;
+    private Point home;
 
     private ArrayList<Platform> platform;
 
@@ -26,6 +27,7 @@ public class Main extends JPanel {
         keys = new boolean[512];
         platform = new ArrayList<Platform>();
         platform.add(new Platform(250, 660));
+        home = new Point(FRAMEWIDTH / 2 - 25, FRAMEHEIGHT * 8 / 9);
 
 
 
@@ -33,7 +35,7 @@ public class Main extends JPanel {
         timer = new Timer(40, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                player.setOnPlatform(false);
+
                 for(Platform a: platform){
                     if(player.intersects(a))
                         player.setOnPlatform(true);
@@ -46,6 +48,7 @@ public class Main extends JPanel {
                         player.setDir(Sprite.NORTH);
                         player.update();
                         keys[KeyEvent.VK_W] = false; //probably.
+                        player.setOnPlatform(false);
                     }
                 }
                 if(keys[KeyEvent.VK_D]){
@@ -60,16 +63,26 @@ public class Main extends JPanel {
                 }
 
                 if(!player.isOnPlatform()&& gravity <1) {
-                    if (player.getSpeed() > -4) {
+                    if (player.getSpeed() > -6) {
                         gravity = 2;
                         player.setSpeed(player.getSpeed() - 1);
                     }
                 }
+                else if (player.isOnPlatform())
+                    player.setSpeed(0);
                 else {
                     gravity --;
-                    player.setSpeed(0);
                 }
+                //bug testing for gravity
+//                System.out.println(player.getSpeed());
 
+                //bounds for game
+                if(player.getLoc().x < -40)
+                    player.setLoc(new Point(500, player.getLoc().y));
+                if(player.getLoc().x>500)
+                    player.setLoc(new Point(-40, player.getLoc().y));
+                if (player.getLoc().y > 700)
+                    player.setLoc(home);
 
 
                 for(Platform s: platform)

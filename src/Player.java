@@ -21,8 +21,7 @@ public class Player extends Sprite{
             setSpeed(10);
             isJumping = false;
         }
-
-
+        super.update();
     }
 
     public void jump(){

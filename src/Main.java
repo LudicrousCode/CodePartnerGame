@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 /**
@@ -21,8 +22,8 @@ public class Main extends JPanel {
 
     public Main() {
         keys = new boolean[512];
-
-
+        platform = new ArrayList<Platform>();
+        platform.add(new Platform(0, 690, 500, 10));
 
 
 
@@ -30,13 +31,14 @@ public class Main extends JPanel {
         timer = new Timer(40, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+                player.setOnPlatform(false);
                 for(Platform a: platform){
                     if(player.intersects(a))
                         player.setOnPlatform(true);
                 }
 
                 if(keys[KeyEvent.VK_W]){
+//                    System.out.println("w");
                     if(player.isOnPlatform()) {
                         player.jump();
                         player.setDir(Sprite.NORTH);
@@ -45,11 +47,13 @@ public class Main extends JPanel {
                     }
                 }
                 if(keys[KeyEvent.VK_D]){
-                    player.setLoc(new Point(player.getLoc().x+2, player.getLoc().y));
+//                    System.out.println("d");
+                    player.setLoc(new Point(player.getLoc().x+6, player.getLoc().y));
                     player.update();
                 }
                 else if(keys[KeyEvent.VK_A]){
-                    player.setLoc(new Point(player.getLoc().x-2, player.getLoc().y));
+//                    System.out.println("a");
+                    player.setLoc(new Point(player.getLoc().x-6, player.getLoc().y));
                     player.update();
                 }
 
@@ -62,7 +66,8 @@ public class Main extends JPanel {
 
 
 
-
+                for(Platform s: platform)
+                    s.update();
 
 
 
@@ -71,7 +76,24 @@ public class Main extends JPanel {
                 repaint();
             }
         });
+        timer.start();
         //outside timer but still in constructor
+        addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent keyEvent) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent keyEvent) {
+                keys[keyEvent.getKeyCode()] = true;
+            }
+
+            @Override
+            public void keyReleased(KeyEvent keyEvent) {
+                keys[keyEvent.getKeyCode()] = false;
+            }
+        });
     }
 
 
@@ -81,7 +103,7 @@ public class Main extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
-        g2.drawRect(FRAMEWIDTH-4, FRAMEHEIGHT-4, 2, 1);
+//        g2.drawRect(FRAMEWIDTH-4, FRAMEHEIGHT-4, 2, 1);
 
         player.draw(g2);
     }

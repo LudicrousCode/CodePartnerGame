@@ -10,6 +10,18 @@ import java.util.ArrayList;
  * Created by andrew_briasco on 3/15/17.
  */
 
+/**
+ * to do: shift the screen based on the position of the player, (use shiftUp and shiftDown commands ->
+ * when player is above or below certain y values)
+ * Create platforms on screen and above screen (randomly?)
+ * balance gravity and screen shifting
+ * add different sized platforms? different types?
+ * add other things into game: flying obstacles/creatures, background, music?, sounds?, powerups?, lives?, win condition,
+ * add even more things into game: starting screen?, levels?, difficulties?, different players?, different types of levels?
+ * ???
+ * profit.
+ */
+
 public class Main extends JPanel {
     public static final int FRAMEWIDTH = 500, FRAMEHEIGHT = 700;
     private Timer timer;
@@ -27,7 +39,7 @@ public class Main extends JPanel {
         keys = new boolean[512];
         platform = new ArrayList<Platform>();
         platform.add(new Platform(250, 660));
-        home = new Point(FRAMEWIDTH / 2 - 25, FRAMEHEIGHT * 8 / 9 - 10);
+//        home = new Point(FRAMEWIDTH / 2 - 25, FRAMEHEIGHT * 8 / 9 - 10);
 
 
 
@@ -40,9 +52,10 @@ public class Main extends JPanel {
                 for(Platform a: platform){
                     if(player.intersects(a)&& player.getSpeed()<1) {
                         player.setOnPlatform(true);
-                        player.setLoc(new Point(player.getLoc().x, a.getLoc().y-41));
+                        player.setLoc(new Point(player.getLoc().x, a.getLoc().y-38));
                     }
                 }
+
 
                 if(keys[KeyEvent.VK_W]){
 //                    System.out.println("w");
@@ -114,6 +127,19 @@ public class Main extends JPanel {
                 keys[keyEvent.getKeyCode()] = false;
             }
         });
+    }
+
+    public void shiftUp(int num){
+        for(Platform a: platform) {
+            a.setLoc(new Point(a.getLoc().x, a.getLoc().y + num));
+//            player.setLoc(new Point(player.getLoc().x, player.getLoc().y + num));
+        }
+    }
+    public void shiftDown(int num){
+        for(Platform a: platform) {
+            a.setLoc(new Point(a.getLoc().x, a.getLoc().y - num));
+//            player.setLoc(new Point(player.getLoc().x, player.getLoc().y - num));
+        }
     }
 
 

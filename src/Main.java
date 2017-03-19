@@ -27,7 +27,7 @@ public class Main extends JPanel {
         keys = new boolean[512];
         platform = new ArrayList<Platform>();
         platform.add(new Platform(250, 660));
-        home = new Point(FRAMEWIDTH / 2 - 25, FRAMEHEIGHT * 8 / 9);
+        home = new Point(FRAMEWIDTH / 2 - 25, FRAMEHEIGHT * 8 / 9 - 10);
 
 
 
@@ -36,9 +36,12 @@ public class Main extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
 
+                player.setOnPlatform(false);
                 for(Platform a: platform){
-                    if(player.intersects(a))
+                    if(player.intersects(a)&& player.getSpeed()<1) {
                         player.setOnPlatform(true);
+                        player.setLoc(new Point(player.getLoc().x, a.getLoc().y-41));
+                    }
                 }
 
                 if(keys[KeyEvent.VK_W]){
@@ -62,7 +65,7 @@ public class Main extends JPanel {
                     player.update();
                 }
 
-                if(!player.isOnPlatform()&& gravity <1) {
+                if(!player.isOnPlatform()&& gravity <0) {
                     if (player.getSpeed() > -6) {
                         gravity = 2;
                         player.setSpeed(player.getSpeed() - 1);

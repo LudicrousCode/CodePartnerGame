@@ -45,6 +45,9 @@ public class Sprite {
         g2.drawImage(op.filter(pic, null), loc.x, loc.y, null);
 //        g2.drawImage(pic, loc.x, loc.y, null);
 //        g2.rotate(-rotationRequired, loc.x+locationX, loc.y+locationX);
+        //bounding boxes?
+        g2.setColor(Color.RED);
+        g2.draw(this.getBoundingRectangle());
     }
 
     /**

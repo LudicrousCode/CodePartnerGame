@@ -10,7 +10,8 @@ public class Player extends Sprite{
 
     public Player(){
 
-        super(Main.FRAMEWIDTH / 2 - 25, Main.FRAMEHEIGHT * 8 / 9, NORTH);
+        super(250, 600, NORTH);
+        //previous starting place: Main.FRAMEWIDTH / 2 - 25, Main.FRAMEHEIGHT * 8 / 9, NORTH
         setPic("player.png", NORTH);
 
     }

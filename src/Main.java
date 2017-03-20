@@ -35,10 +35,14 @@ public class Main extends JPanel {
 
 
     public Main() {
+        home = new Point(250,600);
         gravity = 2;
         keys = new boolean[512];
         platform = new ArrayList<Platform>();
         platform.add(new Platform(250, 660));
+        platform.add(new Platform(200, 540));
+        platform.add(new Platform(300, 510));
+
 //        home = new Point(FRAMEWIDTH / 2 - 25, FRAMEHEIGHT * 8 / 9 - 10);
 
 
@@ -50,9 +54,9 @@ public class Main extends JPanel {
 
                 player.setOnPlatform(false);
                 for(Platform a: platform){
-                    if(player.intersects(a)&& player.getSpeed()<1) {
+                    if(player.intersects(a) && player.getSpeed()<1 && (player.getLoc().y+39) < a.getLoc().y+8) {
                         player.setOnPlatform(true);
-                        player.setLoc(new Point(player.getLoc().x, a.getLoc().y-38));
+//                        player.setLoc(new Point(player.getLoc().x, a.getLoc().y-38));
                     }
                 }
 
@@ -97,8 +101,16 @@ public class Main extends JPanel {
                     player.setLoc(new Point(500, player.getLoc().y));
                 if(player.getLoc().x>500)
                     player.setLoc(new Point(-40, player.getLoc().y));
-                if (player.getLoc().y > 700)
+
+                //if player falls out of screen
+                if(player.getLoc().y>700)
                     player.setLoc(home);
+                //move screen based on player position
+                if(player.getLoc().y<400&&player.getSpeed()>0)
+                    shiftUp(player.getSpeed());
+                if(player.getLoc().y>600 && player.getSpeed()<0)
+                    shiftUp(player.getSpeed()-1);
+
 
 
                 for(Platform s: platform)
@@ -135,12 +147,12 @@ public class Main extends JPanel {
 //            player.setLoc(new Point(player.getLoc().x, player.getLoc().y + num));
         }
     }
-    public void shiftDown(int num){
-        for(Platform a: platform) {
-            a.setLoc(new Point(a.getLoc().x, a.getLoc().y - num));
-//            player.setLoc(new Point(player.getLoc().x, player.getLoc().y - num));
-        }
-    }
+//    public void shiftDown(int num){
+//        for(Platform a: platform) {
+//            a.setLoc(new Point(a.getLoc().x, a.getLoc().y - num));
+////            player.setLoc(new Point(player.getLoc().x, player.getLoc().y - num));
+//        }
+//    }
 
 
 

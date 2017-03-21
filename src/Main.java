@@ -60,12 +60,12 @@ public class Main extends JPanel {
                 for(Platform a: platform){
                     if(player.intersects(a) && player.getSpeed()< 1 && player.getLoc().y+39 < a.getLoc().y+20) {
                         player.setOnPlatform(true);
-//                        player.setLoc(new Point(player.getLoc().x, a.getLoc().y-38));
+                        player.setLoc(new Point(player.getLoc().x, a.getLoc().y-38));
                     }
                 }
 
                 if(!player.isOnPlatform()&& gravity <0) {
-                    if (player.getSpeed() > -6) {
+                    if (player.getSpeed() > -5) {
                         gravity = 2;
                         player.setSpeed(player.getSpeed() - 1);
                     }
@@ -164,13 +164,20 @@ public class Main extends JPanel {
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+
         Graphics2D g2 = (Graphics2D)g;
+
+        Color sky = new Color(107, 163, 255);
+        g2.setColor(sky);
+        g2.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
 
 //        g2.drawRect(FRAMEWIDTH-4, FRAMEHEIGHT-4, 2, 1);
         for (Platform a : platform) {
             a.draw(g2);
         }
         player.draw(g2);
+
+
     }
 
 

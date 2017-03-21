@@ -39,7 +39,11 @@ public class Main extends JPanel {
         gravity = 2;
         keys = new boolean[512];
         platform = new ArrayList<Platform>();
-        platform.add(new Platform(250, 660));
+
+        for(int i = 0; i < 8; i++){
+            platform.add(new Platform(i * 70, 660));
+        }
+
         platform.add(new Platform(200, 540));
         platform.add(new Platform(300, 510));
 
@@ -54,7 +58,7 @@ public class Main extends JPanel {
 
                 player.setOnPlatform(false);
                 for(Platform a: platform){
-                    if(player.intersects(a) && player.getSpeed()<1 && player.getLoc().y+39 < a.getLoc().y+9) {
+                    if(player.intersects(a) && player.getSpeed()< 1 && player.getLoc().y+39 < a.getLoc().y+15) {
                         player.setOnPlatform(true);
 //                        player.setLoc(new Point(player.getLoc().x, a.getLoc().y-38));
                     }

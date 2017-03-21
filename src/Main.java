@@ -40,14 +40,21 @@ public class Main extends JPanel {
         platform = new ArrayList<Platform>();
         gameOver = false;
 
+        //ground thingy
         for(int i = 0; i < 8; i++){
             platform.add(new Platform(i * 70, 660));
         }
 
-        platform.add(new Platform(200, 540));
-        platform.add(new Platform(300, 510));
+        //beginning set platforms
+        platform.add(new Platform(400, 550));
+        platform.add(new Platform(220, 500));
+        platform.add(new Platform(300, 410));
+        platform.add(new Platform(100, 300));
+        platform.add(new Platform(150, 250));
+        platform.add(new Platform(50, 550));
 
-//        home = new Point(FRAMEWIDTH / 2 - 25, FRAMEHEIGHT * 8 / 9 - 10);
+
+
 
 
 
@@ -127,7 +134,6 @@ public class Main extends JPanel {
                     if (platform.get(i).getLoc().y > 750) {
                         platform.remove(i);
                         i--;
-                        //test
                     }
                 }
 
@@ -192,7 +198,8 @@ public class Main extends JPanel {
             g2.setColor(color);
             g2.fillRect(0, 0, FRAMEWIDTH, getHeight());
             g2.setColor(Color.WHITE);
-            g2.drawString("Game Over", FRAMEWIDTH / 2 - 50, FRAMEHEIGHT / 2);
+            g2.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
+            g2.drawString("Game Over", FRAMEWIDTH / 2 - 100, FRAMEHEIGHT / 2);
         }
 
 

@@ -127,6 +127,7 @@ public class Main extends JPanel {
                     if (platform.get(i).getLoc().y > 750) {
                         platform.remove(i);
                         i--;
+                        //test
                     }
                 }
 

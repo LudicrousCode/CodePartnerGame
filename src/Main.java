@@ -27,7 +27,7 @@ public class Main extends JPanel {
     private Timer timer;
     private int gravity;
     private boolean[] keys;
-    private Point home;
+    private boolean gameOver;
 
     private ArrayList<Platform> platform;
 
@@ -35,10 +35,10 @@ public class Main extends JPanel {
 
 
     public Main() {
-        home = new Point(250,600);
         gravity = 2;
         keys = new boolean[512];
         platform = new ArrayList<Platform>();
+        gameOver = false;
 
         for(int i = 0; i < 8; i++){
             platform.add(new Platform(i * 70, 660));
@@ -60,7 +60,7 @@ public class Main extends JPanel {
                 for(Platform a: platform){
                     if(player.intersects(a) && player.getSpeed()< 1 && player.getLoc().y+39 < a.getLoc().y+20) {
                         player.setOnPlatform(true);
-                        player.setLoc(new Point(player.getLoc().x, a.getLoc().y-38));
+//                        player.setLoc(new Point(player.getLoc().x, a.getLoc().y-38));
                     }
                 }
 
@@ -107,8 +107,10 @@ public class Main extends JPanel {
                     player.setLoc(new Point(-40, player.getLoc().y));
 
                 //if player falls out of screen
-                if(player.getLoc().y>700)
+                if(player.getLoc().y>700) {
                     timer.stop();
+                    gameOver = true;
+                }
 //                    player.setLoc(home);
                 //move screen based on player position
                 if(player.getLoc().y<400&&player.getSpeed()>0)
@@ -176,6 +178,14 @@ public class Main extends JPanel {
             a.draw(g2);
         }
         player.draw(g2);
+
+        if(gameOver){
+            Color color = new Color(0, 0, 0, 210);
+            g2.setColor(color);
+            g2.fillRect(0, 0, FRAMEWIDTH, getHeight());
+            g2.setColor(Color.WHITE);
+            g2.drawString("Game Over", FRAMEWIDTH / 2 - 50, FRAMEHEIGHT / 2);
+        }
 
 
     }

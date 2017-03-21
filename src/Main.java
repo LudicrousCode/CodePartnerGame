@@ -58,7 +58,7 @@ public class Main extends JPanel {
 
                 player.setOnPlatform(false);
                 for(Platform a: platform){
-                    if(player.intersects(a) && player.getSpeed()< 1 && player.getLoc().y+39 < a.getLoc().y+15) {
+                    if(player.intersects(a) && player.getSpeed()< 1 && player.getLoc().y+39 < a.getLoc().y+20) {
                         player.setOnPlatform(true);
 //                        player.setLoc(new Point(player.getLoc().x, a.getLoc().y-38));
                     }

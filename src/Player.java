@@ -19,7 +19,7 @@ public class Player extends Sprite{
     @Override
     public void update(){
         if(isJumping){
-            setSpeed(5);
+            setSpeed(8);
             isJumping = false;
         }
         super.update();

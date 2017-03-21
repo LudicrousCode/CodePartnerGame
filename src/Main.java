@@ -27,7 +27,6 @@ public class Main extends JPanel {
     private Timer timer;
     private int gravity;
     private boolean[] keys;
-    private Point home;
 
     private ArrayList<Platform> platform;
 
@@ -35,7 +34,6 @@ public class Main extends JPanel {
 
 
     public Main() {
-        home = new Point(250,600);
         gravity = 2;
         keys = new boolean[512];
         platform = new ArrayList<Platform>();
@@ -60,7 +58,7 @@ public class Main extends JPanel {
                 for(Platform a: platform){
                     if(player.intersects(a) && player.getSpeed()< 1 && player.getLoc().y+39 < a.getLoc().y+20) {
                         player.setOnPlatform(true);
-                        player.setLoc(new Point(player.getLoc().x, a.getLoc().y-38));
+//                        player.setLoc(new Point(player.getLoc().x, a.getLoc().y-38));
                     }
                 }
 
@@ -118,8 +116,15 @@ public class Main extends JPanel {
 
 
 
-                for(Platform s: platform)
+                for(Platform s: platform) {
                     s.update();
+                }
+                for (int i = 0; i < platform.size(); i++) {
+                    if (platform.get(i).getLoc().y > 750) {
+                        platform.remove(i);
+                        i--;
+                    }
+                }
 
                 player.update();
 

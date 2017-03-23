@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class Main extends JPanel {
     public static final int FRAMEWIDTH = 500, FRAMEHEIGHT = 700;
     private Timer timer;
-    private int gravity;
+    private int gravity, spawn, not;
     private boolean[] keys;
     private boolean gameOver;
 
@@ -37,10 +37,12 @@ public class Main extends JPanel {
 
     public Main() {
         gravity = 2;
+        not = 0;
         keys = new boolean[512];
         platform = new ArrayList<Platform>();
         bird = new ArrayList<Bird>();
         gameOver = false;
+        spawn = 0;
 
         //ground thingy
         for(int i = 0; i < 8; i++){
@@ -104,6 +106,21 @@ public class Main extends JPanel {
 //                    System.out.println("a");
                     player.setLoc(new Point(player.getLoc().x-5, player.getLoc().y));
                 }
+                //spawn clouds off the screen
+                if(spawn == 8) {
+                    spawn = 0;
+                    int rand = (int) (Math.random() * 3);
+                    if(rand == 0) {
+                        platform.add(new Platform((int) (Math.random() * 430), -50));
+                        not = 0;
+                    }
+                    else
+                        not ++;
+                }
+                if(not == 4){
+                    not= 0;
+                    platform.add(new Platform((int)(Math.random()*430), -50));
+                }
 
 
                 //bounds for game
@@ -119,11 +136,23 @@ public class Main extends JPanel {
                 }
 //                    player.setLoc(home);
                 //move screen based on player position
-                if(player.getLoc().y<400&&player.getSpeed()>0)
-                    shift(player.getSpeed());
+//                if(player.getLoc().y<400&&player.getSpeed()>0)
+//                    shift(player.getSpeed());
                 if(player.getLoc().y>600 && player.getSpeed()<0)
                     shift(player.getSpeed());
+                //alternate method of shifting screen still testing
+                if(player.getLoc().y<350&&player.isOnPlatform()) {
+                    testShift(4);
+                }
 
+
+
+                for (int i = 0; i < platform.size(); i++) {
+                    if (platform.get(i).getLoc().y > 750) {
+                        platform.remove(i);
+                        i--;
+                    }
+                }
 
                 for(Platform s: platform) {
                     s.update();
@@ -133,15 +162,7 @@ public class Main extends JPanel {
                     b.update();
                 }
 
-                for (int i = 0; i < platform.size(); i++) {
-                    if (platform.get(i).getLoc().y > 750) {
-                        platform.remove(i);
-                        i--;
-                    }
-                }
-
                 player.update();
-
                 repaint();
             }
         });
@@ -168,11 +189,22 @@ public class Main extends JPanel {
     public void shift(int num){
         for(Platform a: platform) {
             a.setLoc(new Point(a.getLoc().x, a.getLoc().y + num));
-//            player.setLoc(new Point(player.getLoc().x, player.getLoc().y + num));
+//            player.setLoc(new Point(player.getLoc().x, (player.getLoc().y-39) + num));
         }
         for(Bird b: bird){
             b.setLoc(new Point(b.getLoc().x, b.getLoc().y + num));
         }
+        spawn ++;
+    }
+    public void testShift(int num){
+        int temp = player.getLoc().y-39;
+        for(Platform a: platform) {
+            a.setLoc(new Point(a.getLoc().x, a.getLoc().y + num));
+        }
+        System.out.println(player.getLoc().y);
+        player.setLoc(new Point(player.getLoc().x, temp+num));
+        System.out.println(player.getLoc().y);
+        spawn++;
     }
 //    public void shiftDown(int num){
 //        for(Platform a: platform) {

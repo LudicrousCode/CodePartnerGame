@@ -194,6 +194,7 @@ public class Main extends JPanel {
         for(Bird b: bird){
             b.setLoc(new Point(b.getLoc().x, b.getLoc().y + num));
         }
+        player.setLoc(new Point(player.getLoc().x, (player.getLoc().y) + num));
         spawn ++;
     }
     public void testShift(int num){
@@ -201,9 +202,10 @@ public class Main extends JPanel {
         for(Platform a: platform) {
             a.setLoc(new Point(a.getLoc().x, a.getLoc().y + num));
         }
-        System.out.println(player.getLoc().y);
-        player.setLoc(new Point(player.getLoc().x, temp+num));
-        System.out.println(player.getLoc().y);
+        for(Bird b: bird){
+            b.setLoc(new Point(b.getLoc().x, b.getLoc().y + num));
+        }
+        player.setLoc(new Point(player.getLoc().x, (player.getLoc().y) + num));
         spawn++;
     }
 //    public void shiftDown(int num){

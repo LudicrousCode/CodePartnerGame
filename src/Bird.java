@@ -1,0 +1,46 @@
+import java.awt.*;
+
+/**
+ * Created by rachel_chau on 3/23/17.
+ */
+public class Bird extends Sprite {
+
+    private int direction;
+
+    public Bird(int x, int y, int dir){
+        super(x, y, NORTH);
+        if(dir == 0) { //going to the right
+            setPic("birdright.png", EAST);
+            setDir(EAST);
+
+        } else {//going to the left
+            setPic("birdleft.png", WEST);
+            setDir(WEST);
+        }
+
+        direction = dir;
+        setSpeed(5);
+    }
+
+    @Override
+    public void update(){
+        super.update();
+
+        if(direction == 0) {
+            if (getLoc().x >= Main.FRAMEWIDTH + getBoundingRectangle().width) {
+                setLoc(new Point(-1 * getBoundingRectangle().width, getLoc().y));
+            }
+        }
+
+        if(direction == 1) {
+            if (getLoc().x <= -1 * getBoundingRectangle().width) {
+                setLoc(new Point(Main.FRAMEWIDTH + getBoundingRectangle().width, getLoc().y));
+            }
+        }
+
+
+    }
+
+
+
+}

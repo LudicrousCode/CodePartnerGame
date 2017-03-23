@@ -30,6 +30,7 @@ public class Main extends JPanel {
     private boolean gameOver;
 
     private ArrayList<Platform> platform;
+    private ArrayList<Bird> bird;
 
     Player player = new Player();
 
@@ -38,6 +39,7 @@ public class Main extends JPanel {
         gravity = 2;
         keys = new boolean[512];
         platform = new ArrayList<Platform>();
+        bird = new ArrayList<Bird>();
         gameOver = false;
 
         //ground thingy
@@ -53,10 +55,10 @@ public class Main extends JPanel {
         platform.add(new Platform(150, 250));
         platform.add(new Platform(50, 550));
 
-
-
-
-
+        //birdz
+        bird.add(new Bird(100, 100, 0));
+        bird.add(new Bird(200, 300, 0));
+        bird.add(new Bird(300, 200, 1));
 
 
         timer = new Timer(40, new ActionListener() {
@@ -90,7 +92,6 @@ public class Main extends JPanel {
                     if(player.isOnPlatform()) {
                         player.jump();
                         player.setDir(Sprite.NORTH);
-                        player.update();
                         keys[KeyEvent.VK_W] = false; //probably.
                         player.setOnPlatform(false);
                     }
@@ -98,12 +99,10 @@ public class Main extends JPanel {
                 if(keys[KeyEvent.VK_D]){
 //                    System.out.println("d");
                     player.setLoc(new Point(player.getLoc().x+5, player.getLoc().y));
-                    player.update();
                 }
                 else if(keys[KeyEvent.VK_A]){
 //                    System.out.println("a");
                     player.setLoc(new Point(player.getLoc().x-5, player.getLoc().y));
-                    player.update();
                 }
 
 
@@ -126,10 +125,14 @@ public class Main extends JPanel {
                     shift(player.getSpeed());
 
 
-
                 for(Platform s: platform) {
                     s.update();
                 }
+
+                for(Bird b: bird) {
+                    b.update();
+                }
+
                 for (int i = 0; i < platform.size(); i++) {
                     if (platform.get(i).getLoc().y > 750) {
                         platform.remove(i);
@@ -167,6 +170,9 @@ public class Main extends JPanel {
             a.setLoc(new Point(a.getLoc().x, a.getLoc().y + num));
 //            player.setLoc(new Point(player.getLoc().x, player.getLoc().y + num));
         }
+        for(Bird b: bird){
+            b.setLoc(new Point(b.getLoc().x, b.getLoc().y + num));
+        }
     }
 //    public void shiftDown(int num){
 //        for(Platform a: platform) {
@@ -183,7 +189,7 @@ public class Main extends JPanel {
 
         Graphics2D g2 = (Graphics2D)g;
 
-        Color sky = new Color(107, 163, 255);
+        Color sky = new Color(173, 209, 255);
         g2.setColor(sky);
         g2.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
 
@@ -191,6 +197,11 @@ public class Main extends JPanel {
         for (Platform a : platform) {
             a.draw(g2);
         }
+
+        for(Bird b : bird){
+            b.draw(g2);
+        }
+
         player.draw(g2);
 
         if(gameOver){
@@ -199,7 +210,7 @@ public class Main extends JPanel {
             g2.fillRect(0, 0, FRAMEWIDTH, getHeight());
             g2.setColor(Color.WHITE);
             g2.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-            g2.drawString("Game Over", FRAMEWIDTH / 2 - 100, FRAMEHEIGHT / 2);
+            g2.drawString("Game Over", FRAMEWIDTH / 2 - 125, FRAMEHEIGHT / 2);
         }
 
 

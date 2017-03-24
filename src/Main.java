@@ -55,7 +55,12 @@ public class Main extends JPanel {
         platform.add(new Platform(300, 410));
         platform.add(new Platform(100, 300));
         platform.add(new Platform(150, 250));
+        platform.add(new Platform(300, 150));
+        platform.add(new Platform(200, 20));
+
+
         platform.add(new Platform(50, 550));
+
 
         //birdz
         bird.add(new Bird(100, 100, 0));
@@ -73,6 +78,10 @@ public class Main extends JPanel {
                         player.setOnPlatform(true);
 //                        player.setLoc(new Point(player.getLoc().x, a.getLoc().y-38));
                     }
+                }
+                for(Bird b: bird){
+                    if(player.intersects(b))
+                        player.jump();
                 }
 
                 if(!player.isOnPlatform()&& gravity <0) {
@@ -107,7 +116,7 @@ public class Main extends JPanel {
                     player.setLoc(new Point(player.getLoc().x-5, player.getLoc().y));
                 }
                 //spawn clouds off the screen
-                if(spawn == 8) {
+                if(spawn == 3) {
                     spawn = 0;
                     int rand = (int) (Math.random() * 3);
                     if(rand == 0) {
@@ -147,7 +156,7 @@ public class Main extends JPanel {
 
 
 
-                for (int i = 0; i < platform.size(); i++) {
+                for(int i = 0; i < platform.size(); i++) {
                     if (platform.get(i).getLoc().y > 750) {
                         platform.remove(i);
                         i--;
@@ -194,8 +203,8 @@ public class Main extends JPanel {
         for(Bird b: bird){
             b.setLoc(new Point(b.getLoc().x, b.getLoc().y + num));
         }
-        player.setLoc(new Point(player.getLoc().x, (player.getLoc().y) + num));
-        spawn ++;
+//        player.setLoc(new Point(player.getLoc().x, (player.getLoc().y) + num));
+//        spawn ++;
     }
     public void testShift(int num){
         int temp = player.getLoc().y-39;

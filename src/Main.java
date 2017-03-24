@@ -57,6 +57,8 @@ public class Main extends JPanel {
         platform.add(new Platform(150, 250));
         platform.add(new Platform(300, 150));
         platform.add(new Platform(200, 20));
+        platform.add(new Platform(100, -20));
+
 
 
         platform.add(new Platform(50, 550));
@@ -86,7 +88,8 @@ public class Main extends JPanel {
 
                 if(!player.isOnPlatform()&& gravity <0) {
                     if (player.getSpeed() > -5) {
-                        gravity = 2;
+                        //changed gravity from 2 to 1
+                        gravity = 1;
                         player.setSpeed(player.getSpeed() - 1);
                     }
                 }
@@ -116,7 +119,7 @@ public class Main extends JPanel {
                     player.setLoc(new Point(player.getLoc().x-5, player.getLoc().y));
                 }
                 //spawn clouds off the screen
-                if(spawn == 3) {
+                if(spawn == 5) {
                     spawn = 0;
                     int rand = (int) (Math.random() * 3);
                     if(rand == 0) {
@@ -225,8 +228,6 @@ public class Main extends JPanel {
 //    }
 
 
-
-
     public void paintComponent(Graphics g){
         super.paintComponent(g);
 
@@ -258,8 +259,6 @@ public class Main extends JPanel {
 
 
     }
-
-
 
     public static void main(String[] args) {
         JFrame window = new JFrame("Jumper");

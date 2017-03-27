@@ -122,10 +122,12 @@ public class Main extends JPanel {
                 //spawn clouds off the screen
                 if(spawn == 5) {
                     spawn = 0;
-                    int rand = (int) (Math.random() * 3);
+                    int rand = (int) (Math.random() * 6);
                     if(rand == 0) {
                         platform.add(new Platform((int) (Math.random() * 430), -50));
                         not = 0;
+                        if(rand == 1)
+                            bird.add(new Bird((int) (Math.random() * 430), -50, (int) (Math.random()*2)));
                     }
                     else
                         not ++;

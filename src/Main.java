@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class Main extends JPanel {
     public static final int FRAMEWIDTH = 500, FRAMEHEIGHT = 700;
     private Timer timer;
-    private int gravity;
+    private int gravity, spawn, not;
     private boolean[] keys;
     private boolean gameOver;
 
@@ -37,10 +37,12 @@ public class Main extends JPanel {
 
     public Main() {
         gravity = 2;
+        not = 0;
         keys = new boolean[512];
         platform = new ArrayList<Platform>();
         bird = new ArrayList<Bird>();
         gameOver = false;
+        spawn = 0;
 
         //ground thingy
         for(int i = 0; i < 8; i++){
@@ -53,7 +55,14 @@ public class Main extends JPanel {
         platform.add(new Platform(300, 410));
         platform.add(new Platform(100, 300));
         platform.add(new Platform(150, 250));
+        platform.add(new Platform(300, 150));
+        platform.add(new Platform(200, 20));
+        platform.add(new Platform(100, -20));
+
+
+
         platform.add(new Platform(50, 550));
+
 
         //birdz
         bird.add(new Bird(100, 100, 0));
@@ -72,10 +81,16 @@ public class Main extends JPanel {
 //                        player.setLoc(new Point(player.getLoc().x, a.getLoc().y-38));
                     }
                 }
+                for(Bird b: bird){
+                    if(player.intersects(b))
+                        player.jump();
+                }
+                //test
 
                 if(!player.isOnPlatform()&& gravity <0) {
                     if (player.getSpeed() > -5) {
-                        gravity = 2;
+                        //changed gravity from 2 to 1
+                        gravity = 1;
                         player.setSpeed(player.getSpeed() - 1);
                     }
                 }
@@ -104,6 +119,21 @@ public class Main extends JPanel {
 //                    System.out.println("a");
                     player.setLoc(new Point(player.getLoc().x-5, player.getLoc().y));
                 }
+                //spawn clouds off the screen
+                if(spawn == 5) {
+                    spawn = 0;
+                    int rand = (int) (Math.random() * 3);
+                    if(rand == 0) {
+                        platform.add(new Platform((int) (Math.random() * 430), -50));
+                        not = 0;
+                    }
+                    else
+                        not ++;
+                }
+                if(not == 4){
+                    not= 0;
+                    platform.add(new Platform((int)(Math.random()*430), -50));
+                }
 
 
                 //bounds for game
@@ -119,11 +149,23 @@ public class Main extends JPanel {
                 }
 //                    player.setLoc(home);
                 //move screen based on player position
-                if(player.getLoc().y<400&&player.getSpeed()>0)
-                    shift(player.getSpeed());
+//                if(player.getLoc().y<400&&player.getSpeed()>0)
+//                    shift(player.getSpeed());
                 if(player.getLoc().y>600 && player.getSpeed()<0)
                     shift(player.getSpeed());
+                //alternate method of shifting screen still testing
+                if(player.getLoc().y<350&&player.isOnPlatform()) {
+                    testShift(4);
+                }
 
+
+
+                for(int i = 0; i < platform.size(); i++) {
+                    if (platform.get(i).getLoc().y > 750) {
+                        platform.remove(i);
+                        i--;
+                    }
+                }
 
                 for(Platform s: platform) {
                     s.update();
@@ -133,15 +175,7 @@ public class Main extends JPanel {
                     b.update();
                 }
 
-                for (int i = 0; i < platform.size(); i++) {
-                    if (platform.get(i).getLoc().y > 750) {
-                        platform.remove(i);
-                        i--;
-                    }
-                }
-
                 player.update();
-
                 repaint();
             }
         });
@@ -168,11 +202,24 @@ public class Main extends JPanel {
     public void shift(int num){
         for(Platform a: platform) {
             a.setLoc(new Point(a.getLoc().x, a.getLoc().y + num));
-//            player.setLoc(new Point(player.getLoc().x, player.getLoc().y + num));
+//            player.setLoc(new Point(player.getLoc().x, (player.getLoc().y-39) + num));
         }
         for(Bird b: bird){
             b.setLoc(new Point(b.getLoc().x, b.getLoc().y + num));
         }
+//        player.setLoc(new Point(player.getLoc().x, (player.getLoc().y) + num));
+//        spawn ++;
+    }
+    public void testShift(int num){
+        int temp = player.getLoc().y-39;
+        for(Platform a: platform) {
+            a.setLoc(new Point(a.getLoc().x, a.getLoc().y + num));
+        }
+        for(Bird b: bird){
+            b.setLoc(new Point(b.getLoc().x, b.getLoc().y + num));
+        }
+        player.setLoc(new Point(player.getLoc().x, (player.getLoc().y) + num));
+        spawn++;
     }
 //    public void shiftDown(int num){
 //        for(Platform a: platform) {
@@ -180,8 +227,6 @@ public class Main extends JPanel {
 ////            player.setLoc(new Point(player.getLoc().x, player.getLoc().y - num));
 //        }
 //    }
-
-
 
 
     public void paintComponent(Graphics g){
@@ -215,8 +260,6 @@ public class Main extends JPanel {
 
 
     }
-
-
 
     public static void main(String[] args) {
         JFrame window = new JFrame("Jumper");

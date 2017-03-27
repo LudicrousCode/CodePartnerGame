@@ -85,6 +85,7 @@ public class Main extends JPanel {
                     if(player.intersects(b))
                         player.jump();
                 }
+                //test
 
                 if(!player.isOnPlatform()&& gravity <0) {
                     if (player.getSpeed() > -5) {

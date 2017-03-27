@@ -126,9 +126,9 @@ public class Main extends JPanel {
                     if(rand == 0) {
                         platform.add(new Platform((int) (Math.random() * 430), -50));
                         not = 0;
-                        if(rand == 1)
-                            bird.add(new Bird((int) (Math.random() * 430), -50, (int) (Math.random()*2)));
                     }
+                    else if(rand == 1)
+                        bird.add(new Bird((int) (Math.random() * 430), -50, (int) (Math.random()*2)));
                     else
                         not ++;
                 }

@@ -91,7 +91,7 @@ public class Main extends JPanel {
                 for (int i = 0; i < powerups.size(); i++) {
                     if(player.intersects(powerups.get(i))){
                         powerups.remove(i);
-                        fly = 400;
+                        fly = 200;
                         break;
                     }
                 }
@@ -143,6 +143,9 @@ public class Main extends JPanel {
                         bird.add(new Bird((int) (Math.random() * 430), -50, (int) (Math.random()*2)));
                     else
                         not ++;
+                    int power = (int)(Math.random()*40);
+                    if (power == 0)
+                        powerups.add(new Jetpack((int) (Math.random() * 430), -50));
                 }
                 if(not == 4){
                     not= 0;
@@ -241,6 +244,8 @@ public class Main extends JPanel {
         for(Bird b: bird){
             b.setLoc(new Point(b.getLoc().x, b.getLoc().y + num));
         }
+        for(Sprite s: powerups)
+            s.setLoc(new Point(s.getLoc().x, s.getLoc().y + num));
 //        player.setLoc(new Point(player.getLoc().x, (player.getLoc().y) + num));
 //        spawn ++;
     }
@@ -252,6 +257,8 @@ public class Main extends JPanel {
         for(Bird b: bird){
             b.setLoc(new Point(b.getLoc().x, b.getLoc().y + num));
         }
+        for(Sprite s: powerups)
+            s.setLoc(new Point(s.getLoc().x, s.getLoc().y + num));
         player.setLoc(new Point(player.getLoc().x, (player.getLoc().y) + num));
         if (fly>0)
             spawn+=2;
@@ -297,6 +304,8 @@ public class Main extends JPanel {
             g2.drawString("Game Over", FRAMEWIDTH / 2 - 125, FRAMEHEIGHT / 2);
         }
         if(fly>0){
+            g2.setColor(Color.BLACK);
+            g2.drawString("Time left: " + fly, 10, 650);
             g2.setColor(Color.GRAY);
             for (int i = 0; i < 30; i++) {
                 g2.fillOval((int)(Math.random()*44+player.getLoc().x),(int)(Math.random()*40+player.getLoc().y+39),5,5);

@@ -29,6 +29,9 @@ public class Player extends Sprite{
         isJumping = true;
 
     }
+    public void superJump(){
+        this.setSpeed(15);
+    }
 
     public void setOnPlatform(boolean onPlatform) {
         this.onPlatform = onPlatform;

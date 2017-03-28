@@ -12,9 +12,9 @@ import java.util.ArrayList;
 
 /**
  * to do: shift the screen based on the position of the player, (use shift commands ->
- * when player is above or below certain y values)
- * Create platforms on screen and above screen (randomly?)
- * balance gravity and screen shifting
+ * when player is above or below certain y values) DONE
+ * Create platforms on screen and above screen (randomly?) DONE
+ * balance gravity and screen shifting DONE
  * add different sized platforms? different types?
  * add other things into game: flying obstacles/creatures, background, music?, sounds?, powerups?, lives?, win condition,
  * add even more things into game: starting screen?, levels?, difficulties?, different players?, different types of levels?
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class Main extends JPanel {
     public static final int FRAMEWIDTH = 500, FRAMEHEIGHT = 700;
     private Timer timer;
-    private int gravity, spawn, not, fly;
+    private int gravity, spawn, not, fly, sboots;
     private boolean[] keys;
     private boolean gameOver;
 
@@ -46,6 +46,7 @@ public class Main extends JPanel {
         gameOver = false;
         spawn = 0;
         fly = 0;
+        sboots = 0;
 
         //ground thingy
         for(int i = 0; i < 8; i++){
@@ -63,6 +64,7 @@ public class Main extends JPanel {
         platform.add(new Platform(100, -20));
 
         powerups.add(new Jetpack(200, 600));
+        powerups.add(new SuperBoots(400,600));
 
         platform.add(new Platform(50, 550));
 
@@ -90,9 +92,15 @@ public class Main extends JPanel {
                 }
                 for (int i = 0; i < powerups.size(); i++) {
                     if(player.intersects(powerups.get(i))){
-                        powerups.remove(i);
-                        fly = 200;
-                        break;
+                        if(powerups.get(i) instanceof Jetpack) {
+                            powerups.remove(i);
+                            fly = 200;
+                            break;
+                        }
+                        if(powerups.get(i) instanceof SuperBoots){
+                            powerups.remove(i);
+                            sboots = 10;
+                        }
                     }
                 }
                 //test
@@ -116,9 +124,14 @@ public class Main extends JPanel {
 
                 if(keys[KeyEvent.VK_W]){
 //                    System.out.println("w");
+                    if(player.isOnPlatform() && sboots > 0) {
+                        sboots--;
+                        player.superJump();
+                        keys[KeyEvent.VK_W] = false; //probably.
+                        player.setOnPlatform(false);
+                    }
                     if(player.isOnPlatform() && fly <1) {
                         player.jump();
-                        player.setDir(Sprite.NORTH);
                         keys[KeyEvent.VK_W] = false; //probably.
                         player.setOnPlatform(false);
                     }
@@ -143,7 +156,7 @@ public class Main extends JPanel {
                         bird.add(new Bird((int) (Math.random() * 430), -50, (int) (Math.random()*2)));
                     else
                         not ++;
-                    int power = (int)(Math.random()*40);
+                    int power = (int)(Math.random()*60);
                     if (power == 0)
                         powerups.add(new Jetpack((int) (Math.random() * 430), -50));
                 }
@@ -177,7 +190,7 @@ public class Main extends JPanel {
                 if(player.getLoc().y<350&&player.isOnPlatform()&& fly < 1) {
                     testShift(4);
                 }
-                else if(player.getLoc().y<350 && fly >0)
+                else if(player.getLoc().y<350 && fly >0 &&player.getSpeed()>=0|| player.getLoc().y<350 && sboots>0 && player.getSpeed()>=0)
                     testShift(player.getSpeed());
 
 
@@ -310,6 +323,10 @@ public class Main extends JPanel {
             for (int i = 0; i < 30; i++) {
                 g2.fillOval((int)(Math.random()*44+player.getLoc().x),(int)(Math.random()*40+player.getLoc().y+39),5,5);
             }
+        }
+        if(sboots>0){
+            g2.setColor(Color.BLACK);
+            g2.drawString("Jumps left: " + sboots, 10, 635);
         }
 
 

@@ -25,11 +25,12 @@ import java.util.ArrayList;
 public class Main extends JPanel {
     public static final int FRAMEWIDTH = 500, FRAMEHEIGHT = 700;
     private Timer timer;
-    private int gravity, spawn, not;
+    private int gravity, spawn, not, fly;
     private boolean[] keys;
     private boolean gameOver;
 
     private ArrayList<Platform> platform;
+    private ArrayList<Sprite> powerups;
     private ArrayList<Bird> bird;
 
     Player player = new Player();
@@ -41,8 +42,10 @@ public class Main extends JPanel {
         keys = new boolean[512];
         platform = new ArrayList<Platform>();
         bird = new ArrayList<Bird>();
+        powerups = new ArrayList<Sprite>();
         gameOver = false;
         spawn = 0;
+        fly = 0;
 
         //ground thingy
         for(int i = 0; i < 8; i++){
@@ -59,7 +62,7 @@ public class Main extends JPanel {
         platform.add(new Platform(200, 20));
         platform.add(new Platform(100, -20));
 
-
+        powerups.add(new Jetpack(200, 600));
 
         platform.add(new Platform(50, 550));
 
@@ -85,6 +88,13 @@ public class Main extends JPanel {
                     if(player.intersects(b))
                         player.jump();
                 }
+                for (int i = 0; i < powerups.size(); i++) {
+                    if(player.intersects(powerups.get(i))){
+                        powerups.remove(i);
+                        fly = 400;
+                        break;
+                    }
+                }
                 //test
 
                 if(!player.isOnPlatform()&& gravity <0) {
@@ -96,6 +106,8 @@ public class Main extends JPanel {
                 }
                 else if (player.isOnPlatform())
                     player.setSpeed(0);
+                else if(fly > 0)
+                    player.setOnPlatform(true);
                 else {
                     gravity --;
                 }
@@ -104,7 +116,7 @@ public class Main extends JPanel {
 
                 if(keys[KeyEvent.VK_W]){
 //                    System.out.println("w");
-                    if(player.isOnPlatform()) {
+                    if(player.isOnPlatform() && fly <1) {
                         player.jump();
                         player.setDir(Sprite.NORTH);
                         keys[KeyEvent.VK_W] = false; //probably.
@@ -120,7 +132,7 @@ public class Main extends JPanel {
                     player.setLoc(new Point(player.getLoc().x-5, player.getLoc().y));
                 }
                 //spawn clouds off the screen
-                if(spawn == 5) {
+                if(spawn >= 5) {
                     spawn = 0;
                     int rand = (int) (Math.random() * 6);
                     if(rand == 0) {
@@ -136,7 +148,10 @@ public class Main extends JPanel {
                     not= 0;
                     platform.add(new Platform((int)(Math.random()*430), -50));
                 }
-
+                if(fly > 0) {
+                    fly--;
+                    player.jump();
+                }
 
                 //bounds for game
                 if(player.getLoc().x < -40)
@@ -156,9 +171,11 @@ public class Main extends JPanel {
                 if(player.getLoc().y>600 && player.getSpeed()<0)
                     shift(player.getSpeed());
                 //alternate method of shifting screen still testing
-                if(player.getLoc().y<350&&player.isOnPlatform()) {
+                if(player.getLoc().y<350&&player.isOnPlatform()&& fly < 1) {
                     testShift(4);
                 }
+                else if(player.getLoc().y<350 && fly >0)
+                    testShift(player.getSpeed());
 
 
 
@@ -166,7 +183,20 @@ public class Main extends JPanel {
                     if (platform.get(i).getLoc().y > 750) {
                         platform.remove(i);
                         i--;
+//                        System.out.println("removed cloud");
                     }
+                }
+                for (int j = 0; j < bird.size(); j++) {
+                    if(bird.get(j).getLoc().y > 750){
+                        bird.remove(j);
+                        j--;
+//                        System.out.println("removed bird");
+                    }
+
+                }
+                for (int i = 0; i < powerups.size(); i++) {
+                    if(powerups.get(i).getLoc().y>750)
+                        powerups.remove(i);
                 }
 
                 for(Platform s: platform) {
@@ -176,6 +206,8 @@ public class Main extends JPanel {
                 for(Bird b: bird) {
                     b.update();
                 }
+                for(Sprite s: platform)
+                    s.update();
 
                 player.update();
                 repaint();
@@ -221,7 +253,10 @@ public class Main extends JPanel {
             b.setLoc(new Point(b.getLoc().x, b.getLoc().y + num));
         }
         player.setLoc(new Point(player.getLoc().x, (player.getLoc().y) + num));
-        spawn++;
+        if (fly>0)
+            spawn+=2;
+        else
+            spawn++;
     }
 //    public void shiftDown(int num){
 //        for(Platform a: platform) {
@@ -248,6 +283,8 @@ public class Main extends JPanel {
         for(Bird b : bird){
             b.draw(g2);
         }
+        for(Sprite s: powerups)
+            s.draw(g2);
 
         player.draw(g2);
 
@@ -258,6 +295,12 @@ public class Main extends JPanel {
             g2.setColor(Color.WHITE);
             g2.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
             g2.drawString("Game Over", FRAMEWIDTH / 2 - 125, FRAMEHEIGHT / 2);
+        }
+        if(fly>0){
+            g2.setColor(Color.GRAY);
+            for (int i = 0; i < 30; i++) {
+                g2.fillOval((int)(Math.random()*44+player.getLoc().x),(int)(Math.random()*40+player.getLoc().y+39),5,5);
+            }
         }
 
 

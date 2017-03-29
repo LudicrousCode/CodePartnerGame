@@ -30,6 +30,9 @@ public class Player extends Sprite{
     public void jump(){
         isJumping = true;
     }
+    public void superJump(){
+        this.setSpeed(15);
+    }
 
 
     public void setOnPlatform(boolean onPlatform) {

@@ -12,9 +12,9 @@ import java.util.ArrayList;
 
 /**
  * to do: shift the screen based on the position of the player, (use shift commands ->
- * when player is above or below certain y values)
- * Create platforms on screen and above screen (randomly?)
- * balance gravity and screen shifting
+ * when player is above or below certain y values) DONE
+ * Create platforms on screen and above screen (randomly?) DONE
+ * balance gravity and screen shifting DONE
  * add different sized platforms? different types?
  * add other things into game: flying obstacles/creatures, background, music?, sounds?, powerups?, lives?, win condition,
  * add even more things into game: starting screen?, levels?, difficulties?, different players?, different types of levels?
@@ -25,12 +25,12 @@ import java.util.ArrayList;
 public class Main extends JPanel {
     public static final int FRAMEWIDTH = 500, FRAMEHEIGHT = 700;
     private Timer timer;
-    private int gravity, spawn, not, level, time;
+    private int gravity, spawn, not, fly, sboots;
     private boolean[] keys;
     private boolean gameOver;
 
-
     private ArrayList<Platform> platform;
+    private ArrayList<Sprite> powerups;
     private ArrayList<Bird> bird;
 
     Player player = new Player();
@@ -42,10 +42,11 @@ public class Main extends JPanel {
         keys = new boolean[512];
         platform = new ArrayList<Platform>();
         bird = new ArrayList<Bird>();
+        powerups = new ArrayList<Sprite>();
         gameOver = false;
         spawn = 0;
-        level = 0;
-        time = 0;
+        fly = 0;
+        sboots = 0;
 
         //ground thingy
         for(int i = 0; i < 8; i++){
@@ -61,6 +62,10 @@ public class Main extends JPanel {
         platform.add(new Platform(300, 150));
         platform.add(new Platform(200, 20));
         platform.add(new Platform(100, -20));
+
+        powerups.add(new Jetpack(200, 600));
+        powerups.add(new SuperBoots(400,600));
+
         platform.add(new Platform(50, 550));
 
 
@@ -85,6 +90,19 @@ public class Main extends JPanel {
                     if(player.intersects(b))
                         player.jump();
                 }
+                for (int i = 0; i < powerups.size(); i++) {
+                    if(player.intersects(powerups.get(i))){
+                        if(powerups.get(i) instanceof Jetpack) {
+                            powerups.remove(i);
+                            fly = 200;
+                            break;
+                        }
+                        if(powerups.get(i) instanceof SuperBoots){
+                            powerups.remove(i);
+                            sboots = 10;
+                        }
+                    }
+                }
                 //test
 
                 if(!player.isOnPlatform()&& gravity <0) {
@@ -96,6 +114,8 @@ public class Main extends JPanel {
                 }
                 else if (player.isOnPlatform())
                     player.setSpeed(0);
+                else if(fly > 0)
+                    player.setOnPlatform(true);
                 else {
                     gravity --;
                 }
@@ -104,9 +124,14 @@ public class Main extends JPanel {
 
                 if(keys[KeyEvent.VK_W]){
 //                    System.out.println("w");
-                    if(player.isOnPlatform()) {
+                    if(player.isOnPlatform() && sboots > 0) {
+                        sboots--;
+                        player.superJump();
+                        keys[KeyEvent.VK_W] = false; //probably.
+                        player.setOnPlatform(false);
+                    }
+                    if(player.isOnPlatform() && fly <1) {
                         player.jump();
-                        player.setDir(Sprite.NORTH);
                         keys[KeyEvent.VK_W] = false; //probably.
                         player.setOnPlatform(false);
                     }
@@ -120,7 +145,7 @@ public class Main extends JPanel {
                     player.setLoc(new Point(player.getLoc().x-5, player.getLoc().y));
                 }
                 //spawn clouds off the screen
-                if(spawn == 5) {
+                if(spawn >= 5) {
                     spawn = 0;
                     int rand = (int) (Math.random() * 6);
                     if(rand == 0) {
@@ -131,12 +156,18 @@ public class Main extends JPanel {
                         bird.add(new Bird((int) (Math.random() * 430), -50, (int) (Math.random()*2)));
                     else
                         not ++;
+                    int power = (int)(Math.random()*60);
+                    if (power == 0)
+                        powerups.add(new Jetpack((int) (Math.random() * 430), -50));
                 }
                 if(not == 4){
                     not= 0;
                     platform.add(new Platform((int)(Math.random()*430), -50));
                 }
-
+                if(fly > 0) {
+                    fly--;
+                    player.jump();
+                }
 
                 //bounds for game
                 if(player.getLoc().x < -40)
@@ -156,9 +187,11 @@ public class Main extends JPanel {
                 if(player.getLoc().y>600 && player.getSpeed()<0)
                     shift(player.getSpeed());
                 //alternate method of shifting screen still testing
-                if(player.getLoc().y<350&&player.isOnPlatform()) {
+                if(player.getLoc().y<350&&player.isOnPlatform()&& fly < 1) {
                     testShift(4);
                 }
+                else if(player.getLoc().y<350 && fly >0 &&player.getSpeed()>=0|| player.getLoc().y<350 && sboots>0 && player.getSpeed()>=0)
+                    testShift(player.getSpeed());
 
 
 
@@ -166,7 +199,20 @@ public class Main extends JPanel {
                     if (platform.get(i).getLoc().y > 750) {
                         platform.remove(i);
                         i--;
+//                        System.out.println("removed cloud");
                     }
+                }
+                for (int j = 0; j < bird.size(); j++) {
+                    if(bird.get(j).getLoc().y > 750){
+                        bird.remove(j);
+                        j--;
+//                        System.out.println("removed bird");
+                    }
+
+                }
+                for (int i = 0; i < powerups.size(); i++) {
+                    if(powerups.get(i).getLoc().y>750)
+                        powerups.remove(i);
                 }
 
                 for(Platform s: platform) {
@@ -176,27 +222,11 @@ public class Main extends JPanel {
                 for(Bird b: bird) {
                     b.update();
                 }
+                for(Sprite s: platform)
+                    s.update();
 
                 player.update();
                 repaint();
-                time++;
-                System.out.println(time);
-
-                if(time <= 250){
-                    level = 1;
-                } else if(time <= 500){
-                    level = 2;
-                } else if(time <= 750){
-                    level = 3;
-                } else if(time <= 1000){
-                    level = 4;
-                } else if(time <= 1250){
-                    level = 5;
-                } else if(time <= 1500){
-                    time = 0;
-                }
-
-
             }
         });
         timer.start();
@@ -227,19 +257,26 @@ public class Main extends JPanel {
         for(Bird b: bird){
             b.setLoc(new Point(b.getLoc().x, b.getLoc().y + num));
         }
+        for(Sprite s: powerups)
+            s.setLoc(new Point(s.getLoc().x, s.getLoc().y + num));
 //        player.setLoc(new Point(player.getLoc().x, (player.getLoc().y) + num));
 //        spawn ++;
     }
     public void testShift(int num){
-//        int temp = player.getLoc().y-39;
+        int temp = player.getLoc().y-39;
         for(Platform a: platform) {
             a.setLoc(new Point(a.getLoc().x, a.getLoc().y + num));
         }
         for(Bird b: bird){
             b.setLoc(new Point(b.getLoc().x, b.getLoc().y + num));
         }
+        for(Sprite s: powerups)
+            s.setLoc(new Point(s.getLoc().x, s.getLoc().y + num));
         player.setLoc(new Point(player.getLoc().x, (player.getLoc().y) + num));
-        spawn++;
+        if (fly>0)
+            spawn+=2;
+        else
+            spawn++;
     }
 //    public void shiftDown(int num){
 //        for(Platform a: platform) {
@@ -248,69 +285,17 @@ public class Main extends JPanel {
 //        }
 //    }
 
+
     public void paintComponent(Graphics g){
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D)g;
-        GradientPaint sky = new GradientPaint(0, 0, Color.WHITE, 0, 0, Color.WHITE);
 
-
-        //level 1: clear-blue sky
-        if(level == 1) {
-            Color skytop = new Color(50, 88, 233);
-            Color skybot = new Color(178, 229, 255);
-            sky = new GradientPaint(FRAMEWIDTH, 0, skybot, 0, FRAMEHEIGHT - FRAMEHEIGHT/22, skytop);
-        }
-
-        //level 2: blizzard
-        if(level == 2) {
-            Color skytop = new Color(46, 64, 121);
-            Color skybot = new Color(51, 51, 51);
-            sky = new GradientPaint(FRAMEWIDTH, 0, skybot, 0, FRAMEHEIGHT - FRAMEHEIGHT/22, skytop);
-        }
-        
-        //level 3: purple sky
-        if(level == 3) {
-            Color skytop = new Color(96, 17, 233);
-            Color skybot = new Color(226, 163, 233);
-            sky = new GradientPaint(FRAMEWIDTH, 0, skybot, 0, FRAMEHEIGHT - FRAMEHEIGHT/22, skytop);
-        }
-
-        //level 4: night
-        if(level == 4) {
-            Color skytop = new Color(6, 0, 38);
-            Color skybot = new Color(53, 14, 96);
-            sky = new GradientPaint(FRAMEWIDTH, 0, skybot, 0, FRAMEHEIGHT - FRAMEHEIGHT/22, skytop);
-
-        }
-
-        //level 5: sunset
-        if(level == 5) {
-            Color skytop = new Color(255, 103, 44);
-            Color skybot = new Color(250, 255, 203);
-            sky = new GradientPaint(FRAMEWIDTH, 0, skybot, 0, FRAMEHEIGHT - FRAMEHEIGHT/22, skytop);
-
-        }
-
-        g2.setPaint(sky);
+        Color sky = new Color(173, 209, 255);
+        g2.setColor(sky);
         g2.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
 
-        //starz / snow
-        if(level == 4) {
-            for (int i = 0; i < 50; i++) {
-                g2.setColor(Color.YELLOW);
-                g2.fillOval((int) (Math.random() * FRAMEWIDTH), (int) (Math.random() * FRAMEHEIGHT), 3, 3);
-            }
-        }
-        if(level == 2){
-            for (int i = 0; i < 500; i++) {
-                g2.setColor(Color.WHITE);
-                g2.fillOval((int) (Math.random() * FRAMEWIDTH), (int) (Math.random() * FRAMEHEIGHT), 3, 3);
-            }
-        }
-
-
-
+//        g2.drawRect(FRAMEWIDTH-4, FRAMEHEIGHT-4, 2, 1);
         for (Platform a : platform) {
             a.draw(g2);
         }
@@ -318,23 +303,32 @@ public class Main extends JPanel {
         for(Bird b : bird){
             b.draw(g2);
         }
+        for(Sprite s: powerups)
+            s.draw(g2);
 
         player.draw(g2);
 
         if(gameOver){
             Color color = new Color(0, 0, 0, 210);
             g2.setColor(color);
-            g2.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
+            g2.fillRect(0, 0, FRAMEWIDTH, getHeight());
             g2.setColor(Color.WHITE);
             g2.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
             g2.drawString("Game Over", FRAMEWIDTH / 2 - 125, FRAMEHEIGHT / 2);
         }
-
-        if(level == 4 || level == 2){
-            Color color = new Color(0, 0, 0, 152);
-            g2.setColor(color);
-            g2.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
+        if(fly>0){
+            g2.setColor(Color.BLACK);
+            g2.drawString("Time left: " + fly, 10, 650);
+            g2.setColor(Color.GRAY);
+            for (int i = 0; i < 30; i++) {
+                g2.fillOval((int)(Math.random()*44+player.getLoc().x),(int)(Math.random()*40+player.getLoc().y+39),5,5);
+            }
         }
+        if(sboots>0){
+            g2.setColor(Color.BLACK);
+            g2.drawString("Jumps left: " + sboots, 10, 635);
+        }
+
 
     }
 

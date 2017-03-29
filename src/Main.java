@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class Main extends JPanel {
     public static final int FRAMEWIDTH = 500, FRAMEHEIGHT = 700;
     private Timer timer;
-    private int gravity, spawn, not, fly, sboots;
+    private int gravity, spawn, not, fly, sboots, level, time;
     private boolean[] keys;
     private boolean gameOver;
 
@@ -47,6 +47,8 @@ public class Main extends JPanel {
         spawn = 0;
         fly = 0;
         sboots = 0;
+        level = 1;
+        time = 0;
 
         //ground thingy
         for(int i = 0; i < 8; i++){
@@ -225,8 +227,24 @@ public class Main extends JPanel {
                 for(Sprite s: platform)
                     s.update();
 
+                if(time <= 50){
+                    level = 1;
+                } else if(time <= 100){
+                    level = 2;
+                } else if(time <= 150){
+                    level = 3;
+                } else if(time <= 200){
+                    level = 4;
+                } else if(time <= 250){
+                    level = 5;
+                } else if(time <= 300){
+                    time = 0;
+                }
+
                 player.update();
                 repaint();
+                time++;
+                System.out.println(time);
             }
         });
         timer.start();
@@ -290,10 +308,62 @@ public class Main extends JPanel {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D)g;
+        GradientPaint sky = new GradientPaint(0, 0, Color.WHITE, 0, 0, Color.WHITE);
 
-        Color sky = new Color(173, 209, 255);
-        g2.setColor(sky);
+
+        //level 1: clear-blue sky
+        if(level == 1) {
+            Color skytop = new Color(50, 88, 233);
+            Color skybot = new Color(178, 229, 255);
+            sky = new GradientPaint(FRAMEWIDTH, 0, skybot, 0, FRAMEHEIGHT - FRAMEHEIGHT/22, skytop);
+        }
+
+        //level 2: blizzard
+        if(level == 2) {
+            Color skytop = new Color(46, 64, 121);
+            Color skybot = new Color(51, 51, 51);
+            sky = new GradientPaint(FRAMEWIDTH, 0, skybot, 0, FRAMEHEIGHT - FRAMEHEIGHT/22, skytop);
+        }
+
+        //level 3: purple sky
+        if(level == 3) {
+            Color skytop = new Color(96, 17, 233);
+            Color skybot = new Color(226, 163, 233);
+            sky = new GradientPaint(FRAMEWIDTH, 0, skybot, 0, FRAMEHEIGHT - FRAMEHEIGHT/22, skytop);
+        }
+
+        //level 4: night
+        if(level == 4) {
+            Color skytop = new Color(6, 0, 38);
+            Color skybot = new Color(53, 14, 96);
+            sky = new GradientPaint(FRAMEWIDTH, 0, skybot, 0, FRAMEHEIGHT - FRAMEHEIGHT/22, skytop);
+
+        }
+
+        //level 5: sunset
+        if(level == 5) {
+            Color skytop = new Color(255, 103, 44);
+            Color skybot = new Color(250, 255, 203);
+            sky = new GradientPaint(FRAMEWIDTH, 0, skybot, 0, FRAMEHEIGHT - FRAMEHEIGHT/22, skytop);
+
+        }
+
+        g2.setPaint(sky);
         g2.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
+
+        //starz / snow
+        if(level == 4) {
+            for (int i = 0; i < 50; i++) {
+                g2.setColor(Color.YELLOW);
+                g2.fillOval((int) (Math.random() * FRAMEWIDTH), (int) (Math.random() * FRAMEHEIGHT), 3, 3);
+            }
+        }
+        if(level == 2){
+            for (int i = 0; i < 500; i++) {
+                g2.setColor(Color.WHITE);
+                g2.fillOval((int) (Math.random() * FRAMEWIDTH), (int) (Math.random() * FRAMEHEIGHT), 3, 3);
+            }
+        }
 
 //        g2.drawRect(FRAMEWIDTH-4, FRAMEHEIGHT-4, 2, 1);
         for (Platform a : platform) {
@@ -329,6 +399,11 @@ public class Main extends JPanel {
             g2.drawString("Jumps left: " + sboots, 10, 635);
         }
 
+        if(level == 4 || level == 2){
+            Color color = new Color(0, 0, 0, 152);
+            g2.setColor(color);
+            g2.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
+        }
 
     }
 

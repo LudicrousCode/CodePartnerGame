@@ -1,3 +1,5 @@
+import java.awt.*;
+
 /**
  * Created by rachel_chau on 3/15/17.
  */
@@ -27,8 +29,8 @@ public class Player extends Sprite{
 
     public void jump(){
         isJumping = true;
-
     }
+
 
     public void setOnPlatform(boolean onPlatform) {
         this.onPlatform = onPlatform;

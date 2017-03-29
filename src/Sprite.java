@@ -47,7 +47,7 @@ public class Sprite {
 //        g2.rotate(-rotationRequired, loc.x+locationX, loc.y+locationX);
         //show bounding boxes (next two lines)
         g2.setColor(Color.RED);
-        g2.draw(this.getBoundingRectangle());
+//        g2.draw(this.getBoundingRectangle());
     }
 
     /**
@@ -228,4 +228,5 @@ public class Sprite {
         this.canLand = canLand;
     }
 }
+
 

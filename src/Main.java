@@ -182,16 +182,18 @@ public class Main extends JPanel {
                 time++;
                 System.out.println(time);
 
-                if(time <= 50){
+                if(time <= 250){
                     level = 1;
-                } else if(time <= 100){
+                } else if(time <= 500){
                     level = 2;
-                } else if(time <= 150){
+                } else if(time <= 750){
                     level = 3;
-                } else if(time <= 200){
+                } else if(time <= 1000){
                     level = 4;
-                } else if(time <= 250){
+                } else if(time <= 1250){
                     level = 5;
+                } else if(time <= 1500){
+                    time = 0;
                 }
 
 
@@ -295,7 +297,7 @@ public class Main extends JPanel {
 
         //starz / snow
         if(level == 4) {
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < 50; i++) {
                 g2.setColor(Color.YELLOW);
                 g2.fillOval((int) (Math.random() * FRAMEWIDTH), (int) (Math.random() * FRAMEHEIGHT), 3, 3);
             }
@@ -333,7 +335,6 @@ public class Main extends JPanel {
             g2.setColor(color);
             g2.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
         }
-
 
     }
 

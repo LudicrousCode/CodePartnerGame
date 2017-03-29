@@ -284,7 +284,7 @@ public class Main extends JPanel {
 
         //level 5: sunset
         if(level == 5) {
-            Color skytop = new Color(255, 133, 0);
+            Color skytop = new Color(255, 103, 44);
             Color skybot = new Color(250, 255, 203);
             sky = new GradientPaint(FRAMEWIDTH, 0, skybot, 0, FRAMEHEIGHT - FRAMEHEIGHT/22, skytop);
 

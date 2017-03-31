@@ -32,6 +32,7 @@ public class Main extends JPanel {
     private ArrayList<Platform> platform;
     private ArrayList<Sprite> powerups;
     private ArrayList<Bird> bird;
+    private ArrayList<KillerPets> killerPets;
 
     Player player = new Player();
 
@@ -43,6 +44,7 @@ public class Main extends JPanel {
         platform = new ArrayList<Platform>();
         bird = new ArrayList<Bird>();
         powerups = new ArrayList<Sprite>();
+        killerPets = new ArrayList<KillerPets>();
         gameOver = false;
         spawn = 0;
         fly = 0;
@@ -77,6 +79,11 @@ public class Main extends JPanel {
         bird.add(new Bird(200, 300, 0, level));
         bird.add(new Bird(300, 200, 1, level));
 
+        //cats and dogs
+        killerPets.add(new KillerPets(100, 0));
+        killerPets.add(new KillerPets(200, 0));
+        killerPets.add(new KillerPets(300, 0));
+        killerPets.add(new KillerPets(400, 0));
 
         timer = new Timer(40, new ActionListener() {
             @Override
@@ -225,8 +232,12 @@ public class Main extends JPanel {
                 for(Bird b: bird) {
                     b.update();
                 }
-                for(Sprite s: platform)
+                for(Sprite s: platform) {
                     s.update();
+                }
+                for(KillerPets kp: killerPets){
+                    kp.update();
+                }
 
 //                if(time <= 50){
 //                    level = 1;
@@ -276,8 +287,14 @@ public class Main extends JPanel {
         for(Bird b: bird){
             b.setLoc(new Point(b.getLoc().x, b.getLoc().y + num));
         }
-        for(Sprite s: powerups)
+        for(Sprite s: powerups) {
             s.setLoc(new Point(s.getLoc().x, s.getLoc().y + num));
+        }
+        for(KillerPets kp: killerPets) {
+            kp.setLoc(new Point(kp.getLoc().x, kp.getLoc().y + num));
+        }
+
+
 //        player.setLoc(new Point(player.getLoc().x, (player.getLoc().y) + num));
 //        spawn ++;
     }
@@ -298,6 +315,9 @@ public class Main extends JPanel {
             spawn += 2;
         else
             spawn++;
+        for(KillerPets kp: killerPets) {
+            kp.setLoc(new Point(kp.getLoc().x, kp.getLoc().y + num));
+        }
     }
 //    public void shiftDown(int num){
 //        for(Platform a: platform) {
@@ -381,8 +401,12 @@ public class Main extends JPanel {
         for(Bird b : bird){
             b.draw(g2);
         }
-        for(Sprite s: powerups)
+        for(Sprite s: powerups) {
             s.draw(g2);
+        }
+        for(KillerPets kp: killerPets){
+            kp.draw(g2);
+        }
 
         player.draw(g2);
 

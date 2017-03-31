@@ -6,7 +6,7 @@ public class Jetpack extends Sprite{
     public Jetpack(int x, int y){
         super(x, y, NORTH);
         this.setSpeed(0);
-        this.setPic("blank.png", NORTH);
+        this.setPic("jetpackpng.png", NORTH);
     }
 }
 

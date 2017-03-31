@@ -5,6 +5,8 @@ import java.awt.*;
  */
 public class KillerPets extends Sprite {
 
+    int rand = (int)(Math.random()*8) + 2;
+
     public KillerPets(int x, int y){
         super(x, y, NORTH);
         int r = (int)(Math.random()*2);
@@ -19,7 +21,8 @@ public class KillerPets extends Sprite {
     public void update(){
         super.update();
 
-        setLoc(new Point(getLoc().x, getLoc().y + 1));
-        rotateBy(2);
+        setLoc(new Point(getLoc().x, getLoc().y + rand));
+        rotateBy(rand);
+
     }
 }

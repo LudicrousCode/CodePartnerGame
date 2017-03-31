@@ -80,10 +80,9 @@ public class Main extends JPanel {
         bird.add(new Bird(300, 200, 1, level));
 
         //cats and dogs
-        killerPets.add(new KillerPets(100, 0));
-        killerPets.add(new KillerPets(200, 0));
-        killerPets.add(new KillerPets(300, 0));
-        killerPets.add(new KillerPets(400, 0));
+        for(int i = 0; i < 4; i++) {
+            killerPets.add(new KillerPets(i*150, 0));
+        }
 
         timer = new Timer(40, new ActionListener() {
             @Override
@@ -224,6 +223,14 @@ public class Main extends JPanel {
                     if(powerups.get(i).getLoc().y>750)
                         powerups.remove(i);
                 }
+                for (int i = 0; i < killerPets.size(); i++) {
+                    if(killerPets.get(i).getLoc().y > 750) {
+                        killerPets.remove(i);
+                        System.out.println("cat/dog removed");
+                        killerPets.add(new KillerPets((int)((Math.random()*FRAMEWIDTH)), -50));
+                        System.out.println("new cat/dog added");
+                    }
+                }
 
                 for(Platform s: platform) {
                     s.update();
@@ -339,7 +346,7 @@ public class Main extends JPanel {
         GradientPaint sky = new GradientPaint(0, 0, Color.WHITE, 0, 0, Color.WHITE);
 
 
-        //level 1: clear-blue sky
+        //level 3: clear-blue sky
         if(level == 1) {
             Color skytop = new Color(50, 88, 233);
             Color skybot = new Color(178, 229, 255);

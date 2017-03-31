@@ -7,15 +7,17 @@ public class Bird extends Sprite {
 
     private int direction;
 
-    public Bird(int x, int y, int dir){
+    public Bird(int x, int y, int dir, int type){
         super(x, y, NORTH);
-        if(dir == 0) { //going to the right
-            setPic("birdright.png", EAST);
-            setDir(EAST);
+        if(type == 1) {
+            if (dir == 0) { //going to the right
+                setPic("birdright.png", EAST);
+                setDir(EAST);
 
-        } else {//going to the left
-            setPic("birdleft.png", WEST);
-            setDir(WEST);
+            } else {//going to the left
+                setPic("birdleft.png", WEST);
+                setDir(WEST);
+            }
         }
 
         direction = dir;

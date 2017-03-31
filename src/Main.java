@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class Main extends JPanel {
     public static final int FRAMEWIDTH = 500, FRAMEHEIGHT = 700;
     private Timer timer;
-    private int gravity, spawn, not, fly, sboots, level, time;
+    private int gravity, spawn, not, fly, sboots, level, time, points;
     private boolean[] keys;
     private boolean gameOver;
 
@@ -49,32 +49,33 @@ public class Main extends JPanel {
         sboots = 0;
         level = 1;
         time = 0;
+        points = 0;
 
         //ground thingy
         for(int i = 0; i < 8; i++){
-            platform.add(new Platform(i * 70, 660));
+            platform.add(new Platform(i * 70, 660, 1));
         }
 
         //beginning set platforms
-        platform.add(new Platform(400, 550));
-        platform.add(new Platform(220, 500));
-        platform.add(new Platform(300, 410));
-        platform.add(new Platform(100, 300));
-        platform.add(new Platform(150, 250));
-        platform.add(new Platform(300, 150));
-        platform.add(new Platform(200, 20));
-        platform.add(new Platform(100, -20));
+        platform.add(new Platform(400, 550, level));
+        platform.add(new Platform(220, 500, level));
+        platform.add(new Platform(300, 410, level));
+        platform.add(new Platform(100, 300, level));
+        platform.add(new Platform(150, 250, level));
+        platform.add(new Platform(300, 150, level));
+        platform.add(new Platform(200, 20, level));
+        platform.add(new Platform(100, -20, level));
 
         powerups.add(new Jetpack(200, 600));
         powerups.add(new SuperBoots(400,600));
 
-        platform.add(new Platform(50, 550));
+        platform.add(new Platform(50, 550, level));
 
 
         //birdz
-        bird.add(new Bird(100, 100, 0));
-        bird.add(new Bird(200, 300, 0));
-        bird.add(new Bird(300, 200, 1));
+        bird.add(new Bird(100, 100, 0, level));
+        bird.add(new Bird(200, 300, 0, level));
+        bird.add(new Bird(300, 200, 1, level));
 
 
         timer = new Timer(40, new ActionListener() {
@@ -151,11 +152,11 @@ public class Main extends JPanel {
                     spawn = 0;
                     int rand = (int) (Math.random() * 6);
                     if(rand == 0) {
-                        platform.add(new Platform((int) (Math.random() * 430), -50));
+                        platform.add(new Platform((int) (Math.random() * 430), -50, level));
                         not = 0;
                     }
                     else if(rand == 1)
-                        bird.add(new Bird((int) (Math.random() * 430), -50, (int) (Math.random()*2)));
+                        bird.add(new Bird((int) (Math.random() * 430), -50, (int) (Math.random()*2), level));
                     else
                         not ++;
                     int power = (int)(Math.random()*60);
@@ -164,7 +165,7 @@ public class Main extends JPanel {
                 }
                 if(not == 4){
                     not= 0;
-                    platform.add(new Platform((int)(Math.random()*430), -50));
+                    platform.add(new Platform((int)(Math.random()*430), -50, level));
                 }
                 if(fly > 0) {
                     fly--;
@@ -227,24 +228,24 @@ public class Main extends JPanel {
                 for(Sprite s: platform)
                     s.update();
 
-                if(time <= 50){
-                    level = 1;
-                } else if(time <= 100){
-                    level = 2;
-                } else if(time <= 150){
-                    level = 3;
-                } else if(time <= 200){
-                    level = 4;
-                } else if(time <= 250){
-                    level = 5;
-                } else if(time <= 300){
-                    time = 0;
-                }
+//                if(time <= 50){
+//                    level = 1;
+//                } else if(time <= 100){
+//                    level = 2;
+//                } else if(time <= 150){
+//                    level = 3;
+//                } else if(time <= 200){
+//                    level = 4;
+//                } else if(time <= 250){
+//                    level = 5;
+//                } else if(time <= 300){
+//                    time = 0;
+//                }
 
                 player.update();
                 repaint();
                 time++;
-                System.out.println(time);
+//                System.out.println(time);
             }
         });
         timer.start();
@@ -281,6 +282,8 @@ public class Main extends JPanel {
 //        spawn ++;
     }
     public void testShift(int num){
+        if(num >0)
+            points += num;
         int temp = player.getLoc().y-39;
         for(Platform a: platform) {
             a.setLoc(new Point(a.getLoc().x, a.getLoc().y + num));
@@ -292,7 +295,7 @@ public class Main extends JPanel {
             s.setLoc(new Point(s.getLoc().x, s.getLoc().y + num));
         player.setLoc(new Point(player.getLoc().x, (player.getLoc().y) + num));
         if (fly>0)
-            spawn+=2;
+            spawn += 2;
         else
             spawn++;
     }
@@ -302,6 +305,11 @@ public class Main extends JPanel {
 ////            player.setLoc(new Point(player.getLoc().x, player.getLoc().y - num));
 //        }
 //    }
+    public void levelUp(int level){
+        if (level == 1){
+            //something
+        }
+    }
 
 
     public void paintComponent(Graphics g){
@@ -404,6 +412,7 @@ public class Main extends JPanel {
             g2.setColor(color);
             g2.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
         }
+        g2.drawString("Points: " + points, 250, 650);
 
     }
 

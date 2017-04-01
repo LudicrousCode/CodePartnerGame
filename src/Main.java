@@ -52,10 +52,11 @@ public class Main extends JPanel {
         sboots = 0;
         level = 1;
         points = 0;
-        lives = 3;
+        lives = 5;
 
-        powerups.add(new Jetpack(100, 100));
-        powerups.add(new SuperBoots(200, 100));
+        powerups.add(new Jetpack(100, FRAMEHEIGHT - 100));
+        powerups.add(new SuperBoots(200, FRAMEHEIGHT - 100));
+        powerups.add(new Heart(300, FRAMEHEIGHT - 100));
 
 
         //ground thingy
@@ -105,12 +106,19 @@ public class Main extends JPanel {
                     if(player.intersects(powerups.get(i))){
                         if(powerups.get(i) instanceof Jetpack) {
                             powerups.remove(i);
-                            fly = 200;
+                            fly+= 150;
                             break;
                         }
                         if(powerups.get(i) instanceof SuperBoots){
                             powerups.remove(i);
-                            sboots = 10;
+                            sboots+=3;
+                            break;
+                        }
+                        if(powerups.get(i) instanceof Heart){
+                            powerups.remove(i);
+                            lives++;
+                            System.out.println("lives++");
+                            break;
                         }
                     }
                 }
@@ -167,7 +175,7 @@ public class Main extends JPanel {
                 //spawn clouds off the screen
                 if(spawn >= 5) {
                     spawn = 0;
-                    int rand = (int) (Math.random() * 6);
+                    int rand = (int) (Math.random() * 4);
                     if(rand == 0) {
                         platform.add(new Platform((int) (Math.random() * 430), -50, level));
                         not = 0;
@@ -176,11 +184,13 @@ public class Main extends JPanel {
                         bird.add(new Bird((int) (Math.random() * 430), -50, (int) (Math.random()*2), level));
                     else
                         not ++;
-                    int power = (int)(Math.random()*75);
+                    int power = (int)(Math.random()*100);
                     if (power == 0)
                         powerups.add(new Jetpack((int) (Math.random() * 430), -50));
                     if(power == 1)
                         powerups.add(new SuperBoots((int) (Math.random() * 430), -50));
+                    if(power == 2)
+                        powerups.add(new Heart((int) (Math.random() * 430), -50));
                 }
                 if(not == 4){
                     not= 0;

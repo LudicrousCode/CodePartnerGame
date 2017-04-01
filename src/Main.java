@@ -68,9 +68,6 @@ public class Main extends JPanel {
         platform.add(new Platform(200, 20, level));
         platform.add(new Platform(100, -20, level));
 
-        powerups.add(new Jetpack(200, 600));
-        powerups.add(new SuperBoots(400,600));
-
         platform.add(new Platform(50, 550, level));
 
 
@@ -174,9 +171,11 @@ public class Main extends JPanel {
                         bird.add(new Bird((int) (Math.random() * 430), -50, (int) (Math.random()*2), level));
                     else
                         not ++;
-                    int power = (int)(Math.random()*60);
+                    int power = (int)(Math.random()*75);
                     if (power == 0)
                         powerups.add(new Jetpack((int) (Math.random() * 430), -50));
+                    if(power == 1)
+                        powerups.add(new SuperBoots((int) (Math.random() * 430), -50));
                 }
                 if(not == 4){
                     not= 0;

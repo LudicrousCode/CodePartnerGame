@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class Main extends JPanel {
     public static final int FRAMEWIDTH = 500, FRAMEHEIGHT = 700;
     private Timer timer;
-    private int gravity, spawn, not, fly, sboots, level, time, points;
+    private int gravity, spawn, not, fly, sboots, level, points, lives;
     private boolean[] keys;
     private boolean gameOver;
 
@@ -50,8 +50,8 @@ public class Main extends JPanel {
         fly = 0;
         sboots = 0;
         level = 1;
-        time = 0;
         points = 0;
+        lives = 3;
 
         //ground thingy
         for(int i = 0; i < 8; i++){
@@ -81,7 +81,7 @@ public class Main extends JPanel {
 
         //cats and dogs
         for(int i = 0; i < 4; i++) {
-            killerPets.add(new KillerPets(i*150, 0));
+            killerPets.add(new KillerPets(i*150, -25));
         }
 
         timer = new Timer(40, new ActionListener() {
@@ -112,6 +112,15 @@ public class Main extends JPanel {
                         }
                     }
                 }
+                for(int kp = 0; kp < killerPets.size(); kp++){
+                    if(player.intersects(killerPets.get(kp))){
+                        killerPets.remove(kp);
+                        lives--;
+                        killerPets.add(new KillerPets((int)(Math.random()*FRAMEWIDTH), -50));
+
+                    }
+                }
+
                 //test
 
                 if(!player.isOnPlatform()&& gravity <0) {
@@ -184,8 +193,8 @@ public class Main extends JPanel {
                 if(player.getLoc().x>500)
                     player.setLoc(new Point(-40, player.getLoc().y));
 
-                //if player falls out of screen
-                if(player.getLoc().y>700) {
+                //if player falls out of screen or no lives
+                if(player.getLoc().y>700 || lives == 0) {
                     timer.stop();
                     gameOver = true;
                 }
@@ -226,9 +235,7 @@ public class Main extends JPanel {
                 for (int i = 0; i < killerPets.size(); i++) {
                     if(killerPets.get(i).getLoc().y > 750) {
                         killerPets.remove(i);
-                        System.out.println("cat/dog removed");
                         killerPets.add(new KillerPets((int)((Math.random()*FRAMEWIDTH)), -50));
-                        System.out.println("new cat/dog added");
                     }
                 }
 
@@ -262,7 +269,6 @@ public class Main extends JPanel {
 
                 player.update();
                 repaint();
-                time++;
 //                System.out.println(time);
             }
         });
@@ -426,16 +432,18 @@ public class Main extends JPanel {
             g2.drawString("Game Over", FRAMEWIDTH / 2 - 125, FRAMEHEIGHT / 2);
         }
         if(fly>0){
-            g2.setColor(Color.BLACK);
-            g2.drawString("Time left: " + fly, 10, 650);
+            g2.setColor(Color.WHITE);
+            g2.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
+            g2.drawString("Time left: " + fly, 200, 695);
             g2.setColor(Color.GRAY);
             for (int i = 0; i < 30; i++) {
                 g2.fillOval((int)(Math.random()*44+player.getLoc().x),(int)(Math.random()*40+player.getLoc().y+39),5,5);
             }
         }
         if(sboots>0){
-            g2.setColor(Color.BLACK);
-            g2.drawString("Jumps left: " + sboots, 10, 635);
+            g2.setColor(Color.WHITE);
+            g2.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
+            g2.drawString("Jumps left: " + sboots, 200, 695);
         }
 
         if(level == 4 || level == 2){
@@ -443,7 +451,10 @@ public class Main extends JPanel {
             g2.setColor(color);
             g2.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
         }
-        g2.drawString("Points: " + points, 250, 650);
+        g2.setColor(Color.WHITE);
+        g2.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
+        g2.drawString("Points: " + points, 100, 695);
+        g2.drawString("Lives: " + lives, 10, 695);
 
     }
 

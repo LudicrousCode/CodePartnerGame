@@ -17,6 +17,7 @@ public class Player extends Sprite{
         setPic("player.png", NORTH);
 
     }
+    
 
     @Override
     public void update(){

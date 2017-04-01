@@ -54,9 +54,9 @@ public class Main extends JPanel {
         points = 0;
         lives = 5;
 
-        powerups.add(new Jetpack(100, FRAMEHEIGHT - 100));
-        powerups.add(new SuperBoots(200, FRAMEHEIGHT - 100));
-        powerups.add(new Heart(300, FRAMEHEIGHT - 100));
+//        powerups.add(new Jetpack(100, FRAMEHEIGHT - 100));
+//        powerups.add(new SuperBoots(200, FRAMEHEIGHT - 100));
+//        powerups.add(new Heart(300, FRAMEHEIGHT - 100));
 
 
         //ground thingy
@@ -84,7 +84,7 @@ public class Main extends JPanel {
 
         //cats and dogs
         for(int i = 0; i < 4; i++) {
-            killerPets.add(new KillerPets(i*150, -25));
+            killerPets.add(new KillerPets(i*150, -25 - i));
         }
 
         timer = new Timer(40, new ActionListener() {

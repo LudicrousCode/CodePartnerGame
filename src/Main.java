@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.net.NoRouteToHostException;
 import java.util.ArrayList;
 
 /**
@@ -52,6 +53,10 @@ public class Main extends JPanel {
         level = 1;
         points = 0;
         lives = 3;
+
+        powerups.add(new Jetpack(100, 100));
+        powerups.add(new SuperBoots(200, 100));
+
 
         //ground thingy
         for(int i = 0; i < 8; i++){
@@ -420,6 +425,7 @@ public class Main extends JPanel {
             kp.draw(g2);
         }
 
+
         player.draw(g2);
 
         if(gameOver){
@@ -430,30 +436,37 @@ public class Main extends JPanel {
             g2.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
             g2.drawString("Game Over", FRAMEWIDTH / 2 - 125, FRAMEHEIGHT / 2);
         }
-        if(fly>0){
-            g2.setColor(Color.WHITE);
-            g2.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
-            g2.drawString("Time left: " + fly, 200, 695);
-            g2.setColor(Color.GRAY);
-            for (int i = 0; i < 30; i++) {
-                g2.fillOval((int)(Math.random()*44+player.getLoc().x),(int)(Math.random()*40+player.getLoc().y+39),5,5);
-            }
-        }
-        if(sboots>0){
-            g2.setColor(Color.WHITE);
-            g2.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
-            g2.drawString("Jumps left: " + sboots, 200, 695);
-        }
 
-        if(level == 4 || level == 2){
-            Color color = new Color(0, 0, 0, 152);
-            g2.setColor(color);
-            g2.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
-        }
+        //jetpack fuel + num superboot jumps
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
-        g2.drawString("Points: " + points, 100, 695);
-        g2.drawString("Lives: " + lives, 10, 695);
+        g2.drawString("Jetpack Fuel: " + fly, 200, 695);
+        g2.drawString("Number of Super Jumps: " + sboots, 325, 695);
+
+
+
+        if(fly>0) {
+            g2.setColor(Color.GRAY);
+            for (int i = 0; i < 30; i++) {
+                g2.fillOval((int) (Math.random() * 44 + player.getLoc().x), (int) (Math.random() * 40 + player.getLoc().y + 39), 5, 5);
+            }
+        }
+
+//        if(sboots>0){
+//            g2.setColor(Color.WHITE);
+//            g2.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
+//            g2.drawString("Jumps left: " + sboots, 200, 695);
+//        }
+
+            if (level == 4 || level == 2) {
+                Color color = new Color(0, 0, 0, 152);
+                g2.setColor(color);
+                g2.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
+            }
+            g2.setColor(Color.WHITE);
+            g2.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
+            g2.drawString("Points: " + points, 100, 695);
+            g2.drawString("Lives: " + lives, 10, 695);
 
     }
 

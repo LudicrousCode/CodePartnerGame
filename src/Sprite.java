@@ -20,6 +20,15 @@ public class Sprite {
     public static final int NORTH = 90, SOUTH = 270, WEST = 180, EAST = 0, NE = 45, NW = 135, SW = 225, SE = 315;
     private boolean canLand;
 
+    public Sprite(int x, int y) {
+        loc = new Point(x, y);
+        setPic("blank.png", NORTH);
+        speed = 0;
+
+        id = nextID;
+        nextID++;
+        canLand = true;
+    }
 
     public Sprite(int x, int y, int direction) {
         loc = new Point(x, y);

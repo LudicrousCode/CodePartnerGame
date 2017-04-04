@@ -28,7 +28,7 @@ public class Main extends JPanel {
     private Timer timer;
     private int gravity, spawn, not, fly, sboots, level, points, lives;
     private boolean[] keys;
-    private boolean gameOver;
+    private boolean gameOver, cave, grass, sky;
 
     private ArrayList<Platform> platform;
     private ArrayList<Sprite> powerups;
@@ -51,7 +51,6 @@ public class Main extends JPanel {
         fly = 0;
         sboots = 0;
         level = 1;
-        time = 0;
         points = 0;
         lives = 5;
 
@@ -62,7 +61,7 @@ public class Main extends JPanel {
 
         //ground thingy
         for(int i = 0; i < 8; i++){
-            platform.add(new Platform(i * 70, 660, 1));
+            platform.add(new Platform(i * 70, 660, level));
         }
 
         //beginning set platforms
@@ -281,6 +280,21 @@ public class Main extends JPanel {
 //                } else if(time <= 300){
 //                    time = 0;
 //                }
+                if(points >= 1000 && cave == false) {
+                    cave  = true;
+                    level++;
+//                    System.out.println("level ++");
+                }
+                if(points >= 2000 && grass == false){
+                    grass = true;
+                    level++;
+//                    System.out.println("level ++");
+                }
+                if(points >= 3000 && sky == false){
+                    sky = true;
+                    level++;
+//                    System.out.println("level ++");
+                }
 
                 player.update();
                 repaint();

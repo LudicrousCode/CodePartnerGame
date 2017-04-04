@@ -20,9 +20,9 @@ public class Sprite {
     public static final int NORTH = 90, SOUTH = 270, WEST = 180, EAST = 0, NE = 45, NW = 135, SW = 225, SE = 315;
     private boolean canLand;
 
-    public Sprite(int x, int y) {
+    public Sprite(int x, int y, String pic) {
         loc = new Point(x, y);
-        setPic("blank.png", NORTH);
+        setPic(pic, NORTH);
         speed = 0;
 
         id = nextID;
@@ -56,7 +56,7 @@ public class Sprite {
 //        g2.rotate(-rotationRequired, loc.x+locationX, loc.y+locationX);
         //show bounding boxes (next two lines)
         g2.setColor(Color.RED);
-        g2.draw(this.getBoundingRectangle());
+//        g2.draw(this.getBoundingRectangle());
     }
 
     /**

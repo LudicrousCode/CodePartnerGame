@@ -28,6 +28,7 @@ public class Main extends JPanel {
     private Timer timer;
     private int gravity, spawn, not, fly, sboots, level, points, lives;
     private boolean[] keys;
+    private boolean start;
     private boolean gameOver, cave, grass, sky;
 
     private ArrayList<Platform> platform;
@@ -47,6 +48,7 @@ public class Main extends JPanel {
         powerups = new ArrayList<Sprite>();
         killerPets = new ArrayList<KillerPets>();
         gameOver = false;
+        start = false;
         spawn = 0;
         fly = 0;
         sboots = 0;
@@ -54,7 +56,7 @@ public class Main extends JPanel {
         points = 0;
         lives = 5;
 
-//        powerups.add(new Jetpack(100, FRAMEHEIGHT - 100));
+        powerups.add(new Jetpack(100, FRAMEHEIGHT - 100));
 //        powerups.add(new SuperBoots(200, FRAMEHEIGHT - 100));
 //        powerups.add(new Heart(300, FRAMEHEIGHT - 100));
 
@@ -117,7 +119,6 @@ public class Main extends JPanel {
                         if(powerups.get(i) instanceof Heart){
                             powerups.remove(i);
                             lives++;
-                            System.out.println("lives++");
                             break;
                         }
                     }
@@ -126,7 +127,8 @@ public class Main extends JPanel {
                     if(player.intersects(killerPets.get(kp))){
                         killerPets.remove(kp);
                         lives--;
-                        killerPets.add(new KillerPets((int)(Math.random()*FRAMEWIDTH), -50));
+
+                        killerPets.add(new KillerPets((int)(Math.random()*FRAMEWIDTH), -100));
 
                     }
                 }
@@ -249,7 +251,7 @@ public class Main extends JPanel {
                 for (int i = 0; i < killerPets.size(); i++) {
                     if(killerPets.get(i).getLoc().y > 750) {
                         killerPets.remove(i);
-                        killerPets.add(new KillerPets((int)((Math.random()*FRAMEWIDTH)), -50));
+                        killerPets.add(new KillerPets((int)((Math.random()*FRAMEWIDTH)), -100));
                     }
                 }
 
@@ -453,14 +455,7 @@ public class Main extends JPanel {
 
         player.draw(g2);
 
-        if(gameOver){
-            Color color = new Color(0, 0, 0, 210);
-            g2.setColor(color);
-            g2.fillRect(0, 0, FRAMEWIDTH, getHeight());
-            g2.setColor(Color.WHITE);
-            g2.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-            g2.drawString("Game Over", FRAMEWIDTH / 2 - 125, FRAMEHEIGHT / 2);
-        }
+
 
         //jetpack fuel + num superboot jumps
         g2.setColor(Color.WHITE);
@@ -492,6 +487,33 @@ public class Main extends JPanel {
             g2.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
             g2.drawString("Points: " + points, 100, 695);
             g2.drawString("Lives: " + lives, 10, 695);
+
+        if(gameOver){
+            Color color = new Color(0, 0, 0, 210);
+            g2.setColor(color);
+            g2.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
+            g2.setColor(Color.WHITE);
+            g2.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
+            g2.drawString("Game Over", FRAMEWIDTH / 2 - 125, FRAMEHEIGHT / 2);
+        }
+
+        if(!start){
+            g2.setColor(new Color(52, 132, 213));
+            g2.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
+            g2.setColor(new Color(255, 247, 241));
+            g2.setColor(Color.WHITE);
+            g2.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
+            g2.drawString("Gudetama Jump", FRAMEWIDTH / 2 - 180, FRAMEHEIGHT/7);
+
+            Rectangle startButton = new Rectangle(FRAMEWIDTH/2 - 100, FRAMEHEIGHT/2, 200, 50);
+            g2.fill(startButton);
+            g2.setColor(new Color(250, 233, 87));
+            g2.setFont(new Font("Comic Sans MS", Font.BOLD, 40));
+            g2.drawString("Start", FRAMEWIDTH / 2 - 50, FRAMEHEIGHT/2 + 40);
+
+        }
+
+
 
     }
 

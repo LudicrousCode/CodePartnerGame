@@ -1,9 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.net.NoRouteToHostException;
 import java.util.ArrayList;
 
@@ -321,6 +318,34 @@ public class Main extends JPanel {
                 keys[keyEvent.getKeyCode()] = false;
             }
         });
+
+        addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                if(mouseEvent.getX() >  FRAMEWIDTH / 2 - 100 && mouseEvent.getX() < FRAMEWIDTH / 2 + 100 && mouseEvent.getY() > FRAMEHEIGHT/2 && mouseEvent.getY() < FRAMEHEIGHT/2 + 50){
+                    start = true;
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+
+            }
+        });
     }
 
     public void shift(int num){
@@ -510,6 +535,10 @@ public class Main extends JPanel {
             g2.setColor(new Color(250, 233, 87));
             g2.setFont(new Font("Comic Sans MS", Font.BOLD, 40));
             g2.drawString("Start", FRAMEWIDTH / 2 - 50, FRAMEHEIGHT/2 + 40);
+
+            g2.setColor(Color.WHITE);
+            g2.setFont(new Font("Comic Sans MS", Font.ITALIC, 20));
+            g2.drawString("Gudetama, the egg yoke, has lost his friends.", 40, FRAMEHEIGHT/2 + 100);
 
         }
 

@@ -322,7 +322,7 @@ public class Main extends JPanel {
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-                if(mouseEvent.getX() >  FRAMEWIDTH / 2 - 100 && mouseEvent.getX() < FRAMEWIDTH / 2 + 100 && mouseEvent.getY() > FRAMEHEIGHT/2 && mouseEvent.getY() < FRAMEHEIGHT/2 + 50){
+                if(mouseEvent.getX() >  FRAMEWIDTH / 2 - 100 && mouseEvent.getX() < FRAMEWIDTH / 2 + 100 && mouseEvent.getY() > FRAMEHEIGHT*3/4 && mouseEvent.getY() < FRAMEHEIGHT*3/4 + 50){
                     start = true;
                 }
             }
@@ -530,15 +530,20 @@ public class Main extends JPanel {
             g2.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
             g2.drawString("Gudetama Jump", FRAMEWIDTH / 2 - 180, FRAMEHEIGHT/7);
 
-            Rectangle startButton = new Rectangle(FRAMEWIDTH/2 - 100, FRAMEHEIGHT/2, 200, 50);
-            g2.fill(startButton);
-            g2.setColor(new Color(250, 233, 87));
-            g2.setFont(new Font("Comic Sans MS", Font.BOLD, 40));
-            g2.drawString("Start", FRAMEWIDTH / 2 - 50, FRAMEHEIGHT/2 + 40);
-
-            g2.setColor(Color.WHITE);
             g2.setFont(new Font("Comic Sans MS", Font.ITALIC, 20));
-            g2.drawString("Gudetama, the egg yoke, has lost his friends.", 40, FRAMEHEIGHT/2 + 100);
+            g2.drawString("Gudetama, the egg yoke, has lost his friends.", 40, FRAMEHEIGHT/4 + 100);
+            g2.drawString("He wants to become apart of the cake.", 65, FRAMEHEIGHT/4 + 150);
+            g2.drawString("Help Gudetama become apart of the cake", 60, FRAMEHEIGHT/4 + 200);
+            g2.drawString("(which is 1000m in the air.)", 125, FRAMEHEIGHT/4 + 250);
+
+            g2.drawString("Do you accept this mission?", 125, FRAMEHEIGHT/4 + 325);
+
+            Rectangle startButton = new Rectangle(FRAMEWIDTH/2 - 100, FRAMEHEIGHT*3/4, 200, 50);
+            g2.fill(startButton);
+            g2.setColor(new Color(30, 250, 35));
+            g2.setFont(new Font("Comic Sans MS", Font.BOLD, 40));
+            g2.drawString("YES", FRAMEWIDTH / 2 - 40, FRAMEHEIGHT*3/4 + 40);
+
 
         }
 

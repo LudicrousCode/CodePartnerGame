@@ -11,6 +11,36 @@ public class Bird extends Sprite {
         super(x, y, NORTH);
         if(type == 1) {
             if (dir == 0) { //going to the right
+                setPic("FireBatRight.png", EAST);
+                setDir(EAST);
+
+            } else {//going to the left
+                setPic("FireBatLeft.png", WEST);
+                setDir(WEST);
+            }
+        }
+        if(type == 2) {
+            if (dir == 0) { //going to the right
+                setPic("CaveBatRight.png", EAST);
+                setDir(EAST);
+
+            } else {//going to the left
+                setPic("CaveBatLeft.png", WEST);
+                setDir(WEST);
+            }
+        }
+        if(type == 3) {
+            if (dir == 0) { //going to the right
+                setPic("BeeSpriteRight.png", EAST);
+                setDir(EAST);
+
+            } else {//going to the left
+                setPic("BeeSpriteLeft.png", WEST);
+                setDir(WEST);
+            }
+        }
+        if(type == 4) {
+            if (dir == 0) { //going to the right
                 setPic("birdright.png", EAST);
                 setDir(EAST);
 

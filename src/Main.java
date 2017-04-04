@@ -51,6 +51,7 @@ public class Main extends JPanel {
         fly = 0;
         sboots = 0;
         level = 1;
+        time = 0;
         points = 0;
         lives = 5;
 

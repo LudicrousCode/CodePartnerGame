@@ -12,9 +12,9 @@ public class Platform extends Sprite{
         if(type == 1)
             this.setPic("LavaPlatform.png", NORTH);
         if(type == 2)
-            this.setPic("StonePlatform", NORTH);
+            this.setPic("StonePlatform.png", NORTH);
         if(type == 3)
-            this.setPic("DirtPlatform", NORTH);
+            this.setPic("DirtPlatform.png", NORTH);
         if(type == 4)
             this.setPic("CloudPlatform.png", NORTH);
 

@@ -32,6 +32,7 @@ public class Main extends JPanel {
     private ArrayList<Sprite> powerups;
     private ArrayList<Bird> bird;
     private ArrayList<KillerPets> killerPets;
+    private ArrayList<Sprite> titleDummies;
 
     Player player = new Player();
 
@@ -44,6 +45,7 @@ public class Main extends JPanel {
         bird = new ArrayList<Bird>();
         powerups = new ArrayList<Sprite>();
         killerPets = new ArrayList<KillerPets>();
+        titleDummies = new ArrayList<Sprite>();
         gameOver = false;
         start = false;
         spawn = 0;
@@ -52,6 +54,8 @@ public class Main extends JPanel {
         level = 1;
         points = 0;
         lives = 5;
+
+        titleDummies.add(new Sprite(100, 145, "gudetamaTitle.png"));
 
         powerups.add(new Jetpack(100, FRAMEHEIGHT - 100));
 //        powerups.add(new SuperBoots(200, FRAMEHEIGHT - 100));
@@ -322,7 +326,7 @@ public class Main extends JPanel {
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-                if(mouseEvent.getX() >  FRAMEWIDTH / 2 - 100 && mouseEvent.getX() < FRAMEWIDTH / 2 + 100 && mouseEvent.getY() > FRAMEHEIGHT*3/4 && mouseEvent.getY() < FRAMEHEIGHT*3/4 + 50){
+                if(mouseEvent.getX() >  FRAMEWIDTH / 2 - 105 && mouseEvent.getX() < FRAMEWIDTH / 2 + 105 && mouseEvent.getY() > FRAMEHEIGHT/2 + 60 && mouseEvent.getY() < FRAMEHEIGHT/2 + 110){
                     start = true;
                 }
             }
@@ -478,9 +482,20 @@ public class Main extends JPanel {
         }
 
 
+
+
         player.draw(g2);
 
 
+        if (level == 4 || level == 2) {
+            Color color = new Color(0, 0, 0, 152);
+            g2.setColor(color);
+            g2.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
+        }
+        g2.setColor(Color.WHITE);
+        g2.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
+        g2.drawString("Points: " + points, 100, 695);
+        g2.drawString("Lives: " + lives, 10, 695);
 
         //jetpack fuel + num superboot jumps
         g2.setColor(Color.WHITE);
@@ -503,15 +518,7 @@ public class Main extends JPanel {
 //            g2.drawString("Jumps left: " + sboots, 200, 695);
 //        }
 
-            if (level == 4 || level == 2) {
-                Color color = new Color(0, 0, 0, 152);
-                g2.setColor(color);
-                g2.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
-            }
-            g2.setColor(Color.WHITE);
-            g2.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
-            g2.drawString("Points: " + points, 100, 695);
-            g2.drawString("Lives: " + lives, 10, 695);
+
 
         if(gameOver){
             Color color = new Color(0, 0, 0, 210);
@@ -525,24 +532,42 @@ public class Main extends JPanel {
         if(!start){
             g2.setColor(new Color(52, 132, 213));
             g2.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
-            g2.setColor(new Color(255, 247, 241));
-            g2.setColor(Color.WHITE);
+            g2.setColor(new Color(255, 205, 42));
             g2.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-            g2.drawString("Gudetama Jump", FRAMEWIDTH / 2 - 180, FRAMEHEIGHT/7);
+            g2.drawString("Gudetama Jump", FRAMEWIDTH / 2 - 190, FRAMEHEIGHT/8);
 
-            g2.setFont(new Font("Comic Sans MS", Font.ITALIC, 20));
-            g2.drawString("Gudetama, the egg yoke, has lost his friends.", 40, FRAMEHEIGHT/4 + 100);
-            g2.drawString("He wants to become apart of the cake.", 65, FRAMEHEIGHT/4 + 150);
-            g2.drawString("Help Gudetama become apart of the cake", 60, FRAMEHEIGHT/4 + 200);
-            g2.drawString("(which is 1000m in the air.)", 125, FRAMEHEIGHT/4 + 250);
+            g2.setColor(new Color(255, 247, 241));
+            g2.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+            g2.drawString("By: Andrew Briasco-Stewart & Rachel Chau", 45, 130);
 
-            g2.drawString("Do you accept this mission?", 125, FRAMEHEIGHT/4 + 325);
+            g2.setFont(new Font("Comic Sans MS", Font.ITALIC, 15));
+            g2.drawString("Gudetama, the egg yoke, has lost his friends, the cake ingredients.", 20, FRAMEHEIGHT/4 + 100);
+            g2.drawString("Gudetama wants to become a part of the cake with his friends.", 30, FRAMEHEIGHT/4 + 125);
+            g2.drawString("Help Gudetama become a part of the cake", 100, FRAMEHEIGHT/4 + 150);
+            g2.drawString("(which is like 403847182374m in the air).", 100, FRAMEHEIGHT/4 + 175);
 
-            Rectangle startButton = new Rectangle(FRAMEWIDTH/2 - 100, FRAMEHEIGHT*3/4, 200, 50);
+            g2.setFont(new Font("Comic Sans MS", Font.PLAIN, 15));
+            g2.drawString("Do you accept this mission?", 150, FRAMEHEIGHT/2 + 50);
+
+            g2.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+            g2.drawString("Instructions:", 190, FRAMEHEIGHT/2 + 160);
+
+            g2.setFont(new Font("Comic Sans MS", Font.PLAIN, 15));
+            g2.drawString("w = jump     a = left     d = right", 145, FRAMEHEIGHT/2 + 185);
+            g2.drawString("Collect jetpacks and superboots to boost your way to the top", 40, FRAMEHEIGHT/2 + 210);
+            g2.drawString("BEWARE! Avoid the raining cats and dogs!", 100, FRAMEHEIGHT/2 + 235);
+            g2.drawString("Collect hearts to regain lives <3", 140, FRAMEHEIGHT/2 + 260);
+
+            Rectangle startButton = new Rectangle(FRAMEWIDTH/2 - 105, FRAMEHEIGHT/2 + 60, 105*2, 50);
             g2.fill(startButton);
             g2.setColor(new Color(30, 250, 35));
             g2.setFont(new Font("Comic Sans MS", Font.BOLD, 40));
-            g2.drawString("YES", FRAMEWIDTH / 2 - 40, FRAMEHEIGHT*3/4 + 40);
+            g2.drawString("YES", FRAMEWIDTH / 2 - 40, FRAMEHEIGHT/2 + 100);
+
+            for(Sprite td: titleDummies){
+                td.draw(g2);
+            }
+
 
 
         }
@@ -552,7 +577,7 @@ public class Main extends JPanel {
     }
 
     public static void main(String[] args) {
-        JFrame window = new JFrame("Jumper");
+        JFrame window = new JFrame("Gudetama Jump");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setBounds(0, 0, FRAMEWIDTH, FRAMEHEIGHT + 22); //(x, y, w, h) 22 due to title bar.
 

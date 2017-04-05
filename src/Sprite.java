@@ -22,7 +22,7 @@ public class Sprite {
 
     public Sprite(int x, int y, String pic) {
         loc = new Point(x, y);
-        setPic(pic, NORTH);
+        setPic(pic, EAST);
         speed = 0;
 
         id = nextID;

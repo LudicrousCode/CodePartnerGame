@@ -51,7 +51,7 @@ public class Main extends JPanel {
         killerPets = new ArrayList<KillerPets>();
         titleDummies = new ArrayList<Sprite>();
         gameOver = false;
-        start = true;
+        start = false;
         spawn = 0;
         fly = 0;
         sboots = 0;

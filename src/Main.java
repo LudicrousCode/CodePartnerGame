@@ -289,23 +289,23 @@ public class Main extends JPanel {
 //                } else if(time <= 300){
 //                    time = 0;
 //                }
-                if(points >= 2 && !cave) {
+                if(points >= 2500 && !cave) {
                     cave  = true;
                     level++;
 //                    System.out.println("level ++");
                 }
-                if(points >= 4 && !grass){
+                if(points >= 5000 && !grass){
                     grass = true;
                     level++;
 //                    System.out.println("level ++");
                 }
-                if(points >= 6 && !sky){
+                if(points >= 7500 && !sky){
                     sky = true;
                     level++;
 //                    System.out.println("level ++");
                 }
 
-                if(points >= 8 && sunset == false){
+                if(points >= 10000 && sunset == false){
                     sunset = true;
                     level++;
 //                    System.out.println("level ++");

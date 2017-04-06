@@ -49,6 +49,16 @@ public class Bird extends Sprite {
                 setDir(WEST);
             }
         }
+        if(type == 5) {
+            if (dir == 0) { //going to the right
+                setPic("PlaneRight.png", EAST);
+                setDir(EAST);
+
+            } else {//going to the left
+                setPic("PlaneLeft.png", WEST);
+                setDir(WEST);
+            }
+        }
 
         direction = dir;
         setSpeed(5);

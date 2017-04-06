@@ -17,6 +17,8 @@ public class Platform extends Sprite{
             this.setPic("DirtPlatform.png", NORTH);
         if(type == 4)
             this.setPic("CloudPlatform.png", NORTH);
+        if(type == 5)
+            this.setPic("EggPlatform.png", NORTH);
 
         this.setSpeed(0);
 //        g2.fillRect(x, y, w, h);

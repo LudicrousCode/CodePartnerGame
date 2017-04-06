@@ -5,7 +5,7 @@ import java.awt.*;
  */
 public class KillerPets extends Sprite {
 
-    int rand = (int)(Math.random()*8) + 2;
+    int rand = (int)(Math.random()*6) + 2;
 
     public KillerPets(int x, int y) {
         super(x, y, NORTH);

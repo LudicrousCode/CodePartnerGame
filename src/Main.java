@@ -92,7 +92,7 @@ public class Main extends JPanel {
         bird.add(new Bird(300, 200, 1, level));
 
         //cats and dogs
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < 3; i++) {
             killerPets.add(new KillerPets(i*150, -25 - i));
         }
 
@@ -184,13 +184,22 @@ public class Main extends JPanel {
                 //spawn clouds off the screen
                 if(spawn >= 5) {
                     spawn = 0;
-                    int rand = (int) (Math.random() * 4);
+                    int rand = (int) (Math.random() * 8);
                     if(rand == 0) {
                         platform.add(new Platform((int) (Math.random() * 430), -50, level));
                         not = 0;
                     }
-                    else if(rand == 1)
+                    if(rand == 1) {
+                        platform.add(new Platform((int) (Math.random() * 430), -50, level));
+                        not = 0;
+                    }
+                    if(rand == 2) {
+                        platform.add(new Platform((int) (Math.random() * 430), -50, level));
+                        not = 0;
+                    }
+                    else if(rand == 3)
                         bird.add(new Bird((int) (Math.random() * 430), -50, (int) (Math.random()*2), level));
+                    // add a not = 0 here?
                     else
                         not ++;
                     int power = (int)(Math.random()*100);
@@ -201,7 +210,7 @@ public class Main extends JPanel {
                     if(power == 2)
                         powerups.add(new Heart((int) (Math.random() * 430), -50));
                 }
-                if(not == 4){
+                if(not == 3){
                     not= 0;
                     platform.add(new Platform((int)(Math.random()*430), -50, level));
                 }
@@ -225,14 +234,21 @@ public class Main extends JPanel {
                 //move screen based on player position
 //                if(player.getLoc().y<400&&player.getSpeed()>0)
 //                    shift(player.getSpeed());
-                if(player.getLoc().y>600 && player.getSpeed()<0)
-                    shift(player.getSpeed());
-                //alternate method of shifting screen still testing
-                if(player.getLoc().y<350&&player.isOnPlatform()&& fly < 1) {
+
+                //shift when at very top of screen
+                if(player.getLoc().y<150 && player.getSpeed()>0 && !player.isOnPlatform())
+                    shiftUp(4);
+
+                //shift when on platform
+                else if(player.getLoc().y<350&&player.isOnPlatform()&& fly < 1) {
                     testShift(4);
                 }
-                else if(player.getLoc().y<350 && fly >0 &&player.getSpeed()>=0|| player.getLoc().y<350 && sboots>0 && player.getSpeed()>=0)
+
+                if(player.getLoc().y<350 && fly >0 &&player.getSpeed()>=0|| player.getLoc().y<350 && sboots>0 && player.getSpeed()>=0)
                     testShift(player.getSpeed());
+                //falling
+                if(player.getLoc().y>600 && player.getSpeed()<0)
+                    shift(player.getSpeed());
 
 
 
@@ -305,12 +321,12 @@ public class Main extends JPanel {
 //                    System.out.println("level ++");
                 }
 
-                if(points >= 10000 && sunset == false){
+                if(points >=10000 && sunset == false){
                     sunset = true;
                     level++;
 //                    System.out.println("level ++");
                 }
-                if(points >= 10){
+                if(points >= 12000){
                     start = false;
                     win = true;
                     cake = new Sprite(FRAMEWIDTH/2 - 150, 100, "cake.png");
@@ -384,15 +400,30 @@ public class Main extends JPanel {
         for(KillerPets kp: killerPets) {
             kp.setLoc(new Point(kp.getLoc().x, kp.getLoc().y + num));
         }
-
-
 //        player.setLoc(new Point(player.getLoc().x, (player.getLoc().y) + num));
 //        spawn ++;
     }
+    private void shiftUp(int num){
+        if(num > 0)
+            points+=num;
+        for(Platform a: platform) {
+            a.setLoc(new Point(a.getLoc().x, a.getLoc().y + num));
+        }
+        for(Bird b: bird){
+            b.setLoc(new Point(b.getLoc().x, b.getLoc().y + num));
+        }
+        for(Sprite s: powerups)
+            s.setLoc(new Point(s.getLoc().x, s.getLoc().y + num));
+        player.setLoc(new Point(player.getLoc().x, (player.getLoc().y) + num));
+            spawn++;
+        for(KillerPets kp: killerPets) {
+            kp.setLoc(new Point(kp.getLoc().x, kp.getLoc().y + num));
+        }
+        spawn +=2;
+    }
     private void testShift(int num){
-        if(num >0)
-            points += num;
-        int temp = player.getLoc().y-39;
+        if(num > 0)
+            points+=num;
         for(Platform a: platform) {
             a.setLoc(new Point(a.getLoc().x, a.getLoc().y + num));
         }

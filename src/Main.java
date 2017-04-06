@@ -13,9 +13,9 @@ import java.util.ArrayList;
  * when player is above or below certain y values) DONE
  * Create platforms on screen and above screen (randomly?) DONE
  * balance gravity and screen shifting DONE
- * add different sized platforms? different types?
- * add other things into game: flying obstacles/creatures, background, music?, sounds?, powerups?, lives?, win condition,
- * add even more things into game: starting screen?, levels?, difficulties?, different players?, different types of levels?
+ * add different sized platforms? different types? DONE
+ * add other things into game: flying obstacles/creaturesDONE, backgroundDONE, music?, sounds?, powerupsDONE?, livesDOONE?, win condition,
+ * add even more things into game: starting screenDONE?, levelsDONE?, difficulties?, different players?, different types of levelsSORTA?
  * ???
  * profit.
  *
@@ -29,8 +29,7 @@ public class Main extends JPanel {
     private Timer timer;
     private int gravity, spawn, not, fly, sboots, level, points, lives;
     private boolean[] keys;
-    private boolean start;
-    private boolean gameOver, cave, grass, sky, sunset;
+    private boolean gameOver, cave, grass, sky, start, sunset;
 
     private ArrayList<Platform> platform;
     private ArrayList<Sprite> powerups;
@@ -287,17 +286,17 @@ public class Main extends JPanel {
 //                } else if(time <= 300){
 //                    time = 0;
 //                }
-                if(points >= 2500 && cave == false) {
+                if(points >= 1000 && !cave) {
                     cave  = true;
                     level++;
 //                    System.out.println("level ++");
                 }
-                if(points >= 5000 && grass == false){
+                if(points >= 2000 && !grass){
                     grass = true;
                     level++;
 //                    System.out.println("level ++");
                 }
-                if(points >= 7500 && sky == false){
+                if(points >= 3000 && !sky){
                     sky = true;
                     level++;
 //                    System.out.println("level ++");
@@ -362,7 +361,7 @@ public class Main extends JPanel {
         });
     }
 
-    public void shift(int num){
+    private void shift(int num){
         for(Platform a: platform) {
             a.setLoc(new Point(a.getLoc().x, a.getLoc().y + num));
 //            player.setLoc(new Point(player.getLoc().x, (player.getLoc().y-39) + num));
@@ -381,7 +380,7 @@ public class Main extends JPanel {
 //        player.setLoc(new Point(player.getLoc().x, (player.getLoc().y) + num));
 //        spawn ++;
     }
-    public void testShift(int num){
+    private void testShift(int num){
         if(num >0)
             points += num;
         int temp = player.getLoc().y-39;
@@ -408,11 +407,6 @@ public class Main extends JPanel {
 ////            player.setLoc(new Point(player.getLoc().x, player.getLoc().y - num));
 //        }
 //    }
-    public void levelUp(int level){
-        if (level == 1){
-            //something
-        }
-    }
 
 
     public void paintComponent(Graphics g){

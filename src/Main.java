@@ -18,6 +18,10 @@ import java.util.ArrayList;
  * add even more things into game: starting screen?, levels?, difficulties?, different players?, different types of levels?
  * ???
  * profit.
+ *
+ * add birds and platforms for level 5
+ * make it so more platforms/birds spawn so it's actually possible
+ * ending/victory screen
  */
 
 public class Main extends JPanel {
@@ -26,7 +30,7 @@ public class Main extends JPanel {
     private int gravity, spawn, not, fly, sboots, level, points, lives;
     private boolean[] keys;
     private boolean start;
-    private boolean gameOver, cave, grass, sky;
+    private boolean gameOver, cave, grass, sky, sunset;
 
     private ArrayList<Platform> platform;
     private ArrayList<Sprite> powerups;
@@ -47,13 +51,13 @@ public class Main extends JPanel {
         killerPets = new ArrayList<KillerPets>();
         titleDummies = new ArrayList<Sprite>();
         gameOver = false;
-        start = false;
+        start = true;
         spawn = 0;
         fly = 0;
         sboots = 0;
         level = 1;
         points = 0;
-        lives = 5;
+        lives = 1000;
 
         titleDummies.add(new Sprite(100, 145, "gudetamaTitle.png"));
 
@@ -283,18 +287,24 @@ public class Main extends JPanel {
 //                } else if(time <= 300){
 //                    time = 0;
 //                }
-                if(points >= 1000 && cave == false) {
+                if(points >= 2500 && cave == false) {
                     cave  = true;
                     level++;
 //                    System.out.println("level ++");
                 }
-                if(points >= 2000 && grass == false){
+                if(points >= 5000 && grass == false){
                     grass = true;
                     level++;
 //                    System.out.println("level ++");
                 }
-                if(points >= 3000 && sky == false){
+                if(points >= 7500 && sky == false){
                     sky = true;
+                    level++;
+//                    System.out.println("level ++");
+                }
+
+                if(points >= 10000 && sunset == false){
+                    sunset = true;
                     level++;
 //                    System.out.println("level ++");
                 }
@@ -414,15 +424,15 @@ public class Main extends JPanel {
 
         //level 3: clear-blue sky
         if(level == 1) {
-            Color skytop = new Color(50, 88, 233);
-            Color skybot = new Color(178, 229, 255);
+            Color skytop = new Color(30, 115, 233);
+            Color skybot = new Color(63, 240, 255);
             sky = new GradientPaint(FRAMEWIDTH, 0, skybot, 0, FRAMEHEIGHT - FRAMEHEIGHT/22, skytop);
         }
 
         //level 2: blizzard
         if(level == 2) {
-            Color skytop = new Color(46, 64, 121);
-            Color skybot = new Color(51, 51, 51);
+            Color skytop = new Color(0, 43, 21);
+            Color skybot = new Color(45, 13, 97);
             sky = new GradientPaint(FRAMEWIDTH, 0, skybot, 0, FRAMEHEIGHT - FRAMEHEIGHT/22, skytop);
         }
 
@@ -435,17 +445,17 @@ public class Main extends JPanel {
 
         //level 4: night
         if(level == 4) {
-            Color skytop = new Color(6, 0, 38);
-            Color skybot = new Color(53, 14, 96);
+            Color skytop = new Color(0, 27, 87);
+            Color skybot = new Color(53, 0, 96);
             sky = new GradientPaint(FRAMEWIDTH, 0, skybot, 0, FRAMEHEIGHT - FRAMEHEIGHT/22, skytop);
 
         }
 
         //level 5: sunset
         if(level == 5) {
-            Color skytop = new Color(255, 103, 44);
-            Color skybot = new Color(250, 255, 203);
-            sky = new GradientPaint(FRAMEWIDTH, 0, skybot, 0, FRAMEHEIGHT - FRAMEHEIGHT/22, skytop);
+            Color top = new Color(255, 205, 42);
+            Color bot = new Color(174, 71, 226);
+            sky = new GradientPaint(FRAMEWIDTH, 0, bot, 0, FRAMEHEIGHT - FRAMEHEIGHT/22, top);
 
         }
 
@@ -488,7 +498,7 @@ public class Main extends JPanel {
 
 
         if (level == 4 || level == 2) {
-            Color color = new Color(0, 0, 0, 152);
+            Color color = new Color(0, 0, 0, 133);
             g2.setColor(color);
             g2.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
         }
@@ -530,13 +540,21 @@ public class Main extends JPanel {
         }
 
         if(!start){
-            g2.setColor(new Color(52, 132, 213));
+//            g2.setColor(new Color(52, 132, 213));
+
+            Color top = new Color(255, 205, 42);
+            Color bot = new Color(174, 71, 226);
+
+//            Color bot = new Color(233, 121, 218);
+            sky = new GradientPaint(FRAMEWIDTH, 0, bot, 0, FRAMEHEIGHT, top);
+            g2.setPaint(sky);
+
             g2.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
-            g2.setColor(new Color(255, 205, 42));
+            g2.setColor(new Color(244, 237, 231));
             g2.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
             g2.drawString("Gudetama Jump", FRAMEWIDTH / 2 - 190, FRAMEHEIGHT/8);
 
-            g2.setColor(new Color(255, 247, 241));
+//            g2.setColor(new Color(244, 237, 231));
             g2.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
             g2.drawString("By: Andrew Briasco-Stewart & Rachel Chau", 45, 130);
 
@@ -554,13 +572,14 @@ public class Main extends JPanel {
 
             g2.setFont(new Font("Comic Sans MS", Font.PLAIN, 15));
             g2.drawString("w = jump     a = left     d = right", 145, FRAMEHEIGHT/2 + 185);
-            g2.drawString("Collect jetpacks and superboots to boost your way to the top", 40, FRAMEHEIGHT/2 + 210);
-            g2.drawString("BEWARE! Avoid the raining cats and dogs!", 100, FRAMEHEIGHT/2 + 235);
-            g2.drawString("Collect hearts to regain lives <3", 140, FRAMEHEIGHT/2 + 260);
+            g2.drawString("Collect jetpacks and superboots to soar your way to the top!", 40, FRAMEHEIGHT/2 + 210);
+            g2.drawString("Hop on birds (they'll give you a boost)", 120, FRAMEHEIGHT/2 + 235);
+            g2.drawString("BEWARE! Avoid the raining cats and dogs!", 105, FRAMEHEIGHT/2 + 260);
+            g2.drawString("Collect hearts to regain lives <3", 140, FRAMEHEIGHT/2 + 285);
 
             Rectangle startButton = new Rectangle(FRAMEWIDTH/2 - 105, FRAMEHEIGHT/2 + 60, 105*2, 50);
             g2.fill(startButton);
-            g2.setColor(new Color(30, 250, 35));
+            g2.setColor(new Color(250, 171, 29));
             g2.setFont(new Font("Comic Sans MS", Font.BOLD, 40));
             g2.drawString("YES", FRAMEWIDTH / 2 - 40, FRAMEHEIGHT/2 + 100);
 

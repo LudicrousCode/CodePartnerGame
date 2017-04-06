@@ -58,7 +58,7 @@ public class Main extends JPanel {
         sboots = 0;
         level = 1;
         points = 0;
-        lives = 1000;
+        lives = 12;
 
         titleDummies.add(new Sprite(100, 145, "gudetamaTitle.png"));
 
@@ -177,6 +177,9 @@ public class Main extends JPanel {
 //                    System.out.println("d");
                     player.setLoc(new Point(player.getLoc().x+5, player.getLoc().y));
                 }
+                if(keys[KeyEvent.VK_B]){
+                    player.jump();
+                }
                 else if(keys[KeyEvent.VK_A]){
 //                    System.out.println("a");
                     player.setLoc(new Point(player.getLoc().x-5, player.getLoc().y));
@@ -190,10 +193,6 @@ public class Main extends JPanel {
                         not = 0;
                     }
                     if(rand == 1) {
-                        platform.add(new Platform((int) (Math.random() * 430), -50, level));
-                        not = 0;
-                    }
-                    if(rand == 2) {
                         platform.add(new Platform((int) (Math.random() * 430), -50, level));
                         not = 0;
                     }
@@ -321,7 +320,7 @@ public class Main extends JPanel {
 //                    System.out.println("level ++");
                 }
 
-                if(points >=10000 && sunset == false){
+                if(points >=10000 && !sunset){
                     sunset = true;
                     level++;
 //                    System.out.println("level ++");

@@ -59,7 +59,7 @@ public class Main extends JPanel {
         sboots = 0;
         level = 1;
         points = 0;
-        lives = 10;
+        lives = 8;
 
         titleDummies.add(new Sprite(100, 145, "gudetamaTitle.png"));
 

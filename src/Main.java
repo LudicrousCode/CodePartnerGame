@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 
 /**
+ * finished
  * to do: shift the screen based on the position of the player, (use shift commands ->
  * when player is above or below certain y values) DONE
  * Create platforms on screen and above screen (randomly?) DONE

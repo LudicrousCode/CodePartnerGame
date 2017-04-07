@@ -58,12 +58,12 @@ public class Main extends JPanel {
         sboots = 0;
         level = 1;
         points = 0;
-        lives = 12;
+        lives = 10;
 
         titleDummies.add(new Sprite(100, 145, "gudetamaTitle.png"));
 
 
-        powerups.add(new Jetpack(100, FRAMEHEIGHT - 100));
+//        powerups.add(new Jetpack(100, FRAMEHEIGHT - 100));
 //        powerups.add(new SuperBoots(200, FRAMEHEIGHT - 100));
 //        powerups.add(new Heart(300, FRAMEHEIGHT - 100));
 
@@ -74,7 +74,7 @@ public class Main extends JPanel {
         }
 
         //beginning set platforms
-        platform.add(new Platform(400, 550, level));
+        platform.add(new Platform(400, 600, level));
         platform.add(new Platform(220, 500, level));
         platform.add(new Platform(300, 410, level));
         platform.add(new Platform(100, 300, level));
@@ -115,12 +115,12 @@ public class Main extends JPanel {
                     if(player.intersects(powerups.get(i))){
                         if(powerups.get(i) instanceof Jetpack) {
                             powerups.remove(i);
-                            fly+= 150;
+                            fly+= 100;
                             break;
                         }
                         if(powerups.get(i) instanceof SuperBoots){
                             powerups.remove(i);
-                            sboots+=3;
+                            sboots++;
                             break;
                         }
                         if(powerups.get(i) instanceof Heart){
@@ -325,7 +325,7 @@ public class Main extends JPanel {
                     level++;
 //                    System.out.println("level ++");
                 }
-                if(points >= 12000){
+                if(points >= 12500){
                     start = false;
                     win = true;
                     cake = new Sprite(FRAMEWIDTH/2 - 150, 100, "cake.png");
@@ -399,6 +399,8 @@ public class Main extends JPanel {
         for(KillerPets kp: killerPets) {
             kp.setLoc(new Point(kp.getLoc().x, kp.getLoc().y + num));
         }
+
+
 //        player.setLoc(new Point(player.getLoc().x, (player.getLoc().y) + num));
 //        spawn ++;
     }
@@ -458,8 +460,8 @@ public class Main extends JPanel {
 
             //level 3: clear-blue sky
             if (level == 1) {
-                Color skytop = new Color(30, 115, 233);
-                Color skybot = new Color(63, 240, 255);
+                Color skytop = new Color(233, 25, 19);
+                Color skybot = new Color(255, 169, 68);
                 sky = new GradientPaint(FRAMEWIDTH, 0, skybot, 0, FRAMEHEIGHT - FRAMEHEIGHT / 22, skytop);
             }
 
@@ -487,8 +489,8 @@ public class Main extends JPanel {
 
             //level 5: sunset
             if (level == 5) {
-                Color top = new Color(255, 205, 42);
-                Color bot = new Color(174, 71, 226);
+                Color top = new Color(132, 255, 221);
+                Color bot = new Color(14, 226, 220);
                 sky = new GradientPaint(FRAMEWIDTH, 0, bot, 0, FRAMEHEIGHT - FRAMEHEIGHT / 22, top);
 
             }
@@ -583,8 +585,6 @@ public class Main extends JPanel {
             g2.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
 
             if(!win) {
-
-
                 g2.setColor(new Color(244, 237, 231));
                 g2.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
                 g2.drawString("Gudetama Jump", FRAMEWIDTH / 2 - 190, FRAMEHEIGHT / 8);

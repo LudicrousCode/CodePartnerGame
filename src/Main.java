@@ -116,12 +116,12 @@ public class Main extends JPanel {
                     if(player.intersects(powerups.get(i))){
                         if(powerups.get(i) instanceof Jetpack) {
                             powerups.remove(i);
-                            fly+= 100;
+                            fly = 150;
                             break;
                         }
                         if(powerups.get(i) instanceof SuperBoots){
                             powerups.remove(i);
-                            sboots++;
+                            sboots += 3;
                             break;
                         }
                         if(powerups.get(i) instanceof Heart){

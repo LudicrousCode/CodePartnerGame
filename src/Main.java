@@ -27,9 +27,9 @@ import java.util.ArrayList;
 public class Main extends JPanel {
     public static final int FRAMEWIDTH = 500, FRAMEHEIGHT = 700;
     private Timer timer;
-    private int gravity, spawn, not, fly, sboots, level, points, lives;
+    private int gravity, spawn, not, fly, sboots, level, points, lives, leveled;
     private boolean[] keys;
-    private boolean gameOver, cave, grass, sky, start, sunset, win;
+    private boolean gameOver, cave, grass, sky, start, sunset, win, levelUp;
 
     private ArrayList<Platform> platform;
     private ArrayList<Sprite> powerups;
@@ -307,22 +307,26 @@ public class Main extends JPanel {
                 if(points >= 2500 && !cave) {
                     cave  = true;
                     level++;
+                    levelUp = true;
 //                    System.out.println("level ++");
                 }
                 if(points >= 5000 && !grass){
                     grass = true;
                     level++;
+                    levelUp = true;
 //                    System.out.println("level ++");
                 }
                 if(points >= 7500 && !sky){
                     sky = true;
                     level++;
+                    levelUp = true;
 //                    System.out.println("level ++");
                 }
 
                 if(points >=10000 && !sunset){
                     sunset = true;
                     level++;
+                    levelUp = true;
 //                    System.out.println("level ++");
                 }
                 if(points >= 12500){
@@ -330,6 +334,11 @@ public class Main extends JPanel {
                     win = true;
                     cake = new Sprite(FRAMEWIDTH/2 - 150, 100, "cake.png");
                     timer.stop();
+                }
+
+                if(levelUp){
+                    levelUp = false;
+                    leveled = 20;
                 }
 
                 player.update();
@@ -560,6 +569,11 @@ public class Main extends JPanel {
 //            g2.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
 //            g2.drawString("Jumps left: " + sboots, 200, 695);
 //        }
+            if(leveled > 0){
+                leveled --;
+                g2.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
+                g2.drawString("Level Up", 150, 300);
+            }
         }
 
 
